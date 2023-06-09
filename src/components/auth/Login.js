@@ -1,23 +1,37 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom"
 import "./Login.css"
 
 export const Login = () => {
-    const [email, set] = useState("hpassfield7@netvibes.com")
+    const [username, setUsername] = useState()
+    const [password, setPassword] = useState()
     const navigate = useNavigate()
 
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch(`http://localhost:8088/users?email=${email}`)
+        const user = {
+            username: username,
+            password: password
+        }
+
+        return fetch(`http://localhost:8000/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
             .then(res => res.json())
-            .then(foundUsers => {
-                if (foundUsers.length === 1) {
-                    const user = foundUsers[0]
-                    localStorage.setItem("honey_user", JSON.stringify({
-                        id: user.id,
-                        staff: user.isStaff
+            .then(foundUser => {
+                if (foundUser) {
+                    const user = foundUser
+                    console.log(user)
+                    localStorage.setItem("qfs_user", JSON.stringify({
+                        token: user.token,
+                        is_staff: user.is_staff
                     }))
 
                     navigate("/")
@@ -32,16 +46,25 @@ export const Login = () => {
         <main className="container--login">
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Honey Rae Repairs</h1>
+                    <h1>QuickFitS</h1>
                     <h2>Please sign in</h2>
                     <fieldset>
-                        <label htmlFor="inputEmail"> Email address </label>
-                        <input type="email"
-                            value={email}
-                            onChange={evt => set(evt.target.value)}
+                        <label htmlFor="inputUsername"> Username</label>
+                        <input type="username"
+                            value={username}
+                            onChange={evt => setUsername(evt.target.value)}
                             className="form-control"
-                            placeholder="Email address"
+                            placeholder="Username"
                             required autoFocus />
+                    </fieldset>
+                    <fieldset>
+                        <label htmlFor="inputPassword"> Password </label>
+                        <input type="password"
+                            value={password}
+                            onChange={evt => setPassword(evt.target.value)}
+                            className="form-control"
+                            placeholder="Password"
+                            required />
                     </fieldset>
                     <fieldset>
                         <button type="submit">

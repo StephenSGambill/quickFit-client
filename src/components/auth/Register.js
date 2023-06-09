@@ -4,14 +4,16 @@ import "./Login.css"
 
 export const Register = (props) => {
     const [customer, setCustomer] = useState({
-        email: "",
-        fullName: "",
-        isStaff: false
+        username: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+        email: ""
     })
     let navigate = useNavigate()
 
-    const registerNewUser = () => {
-        return fetch("http://localhost:8088/users", {
+    const handleRegister = () => {
+        return fetch("http://localhost:8000/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -21,7 +23,7 @@ export const Register = (props) => {
             .then(res => res.json())
             .then(createdUser => {
                 if (createdUser.hasOwnProperty("id")) {
-                    localStorage.setItem("honey_user", JSON.stringify({
+                    localStorage.setItem("qfs_user", JSON.stringify({
                         id: createdUser.id,
                         staff: createdUser.isStaff
                     }))
@@ -31,24 +33,24 @@ export const Register = (props) => {
             })
     }
 
-    const handleRegister = (e) => {
-        e.preventDefault()
-        return fetch(`http://localhost:8088/users?email=${customer.email}`)
-            .then(res => res.json())
-            .then(response => {
-                if (response.length > 0) {
-                    // Duplicate email. No good.
-                    window.alert("Account with that email address already exists")
-                }
-                else {
-                    // Good email, create user.
-                    registerNewUser()
-                }
-            })
-    }
+    // const handleRegister = (e) => {
+    //     e.preventDefault()
+    //     return fetch(`http://localhost:8088/users?email=${customer.email}`)
+    //         .then(res => res.json())
+    //         .then(response => {
+    //             if (response.length > 0) {
+    //                 // Duplicate email. No good.
+    //                 window.alert("Account with that email address already exists")
+    //             }
+    //             else {
+    //                 // Good email, create user.
+    //                 registerNewUser()
+    //             }
+    //         })
+    // }
 
     const updateCustomer = (evt) => {
-        const copy = {...customer}
+        const copy = { ...customer }
         copy[evt.target.id] = evt.target.value
         setCustomer(copy)
     }
@@ -56,28 +58,38 @@ export const Register = (props) => {
     return (
         <main style={{ textAlign: "center" }}>
             <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Please Register for Honey Rae Repairs</h1>
+                <h1 className="h3 mb-3 font-weight-normal">Please Register for QuickFitS</h1>
                 <fieldset>
-                    <label htmlFor="fullName"> Full Name </label>
+                    <label htmlFor="username"> Username </label>
                     <input onChange={updateCustomer}
-                           type="text" id="fullName" className="form-control"
-                           placeholder="Enter your name" required autoFocus />
+                        type="text" id="username" className="form-control"
+                        placeholder="Enter your Username" required autoFocus />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="email"> Email address </label>
+                    <label htmlFor="password"> Password </label>
+                    <input onChange={updateCustomer}
+                        type="password" id="password" className="form-control"
+                        placeholder="Password" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="first_name"> First Name </label>
+                    <input onChange={updateCustomer}
+                        type="text" id="first_name" className="form-control"
+                        placeholder="First Name" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="last_name"> Last Name </label>
+                    <input onChange={updateCustomer}
+                        type="text" id="last_name" className="form-control"
+                        placeholder="Last Name" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="email"> Email </label>
                     <input onChange={updateCustomer}
                         type="email" id="email" className="form-control"
-                        placeholder="Email address" required />
+                        placeholder="Email" required />
                 </fieldset>
-                <fieldset>
-                    <input onChange={(evt) => {
-                        const copy = {...customer}
-                        copy.isStaff = evt.target.checked
-                        setCustomer(copy)
-                    }}
-                        type="checkbox" id="isStaff" />
-                    <label htmlFor="email"> I am an employee </label>
-                </fieldset>
+
                 <fieldset>
                     <button type="submit"> Register </button>
                 </fieldset>
