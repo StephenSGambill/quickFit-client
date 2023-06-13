@@ -31,7 +31,8 @@ export const Login = () => {
                     console.log(user)
                     localStorage.setItem("qfs_user", JSON.stringify({
                         token: user.token,
-                        is_staff: user.is_staff
+                        is_staff: user.is_staff,
+                        user_id: user.user_id
                     }))
 
                     navigate("/")
