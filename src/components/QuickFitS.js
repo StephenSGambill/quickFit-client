@@ -4,23 +4,27 @@ import { ApplicationViews } from "./views/ApplicationViews"
 import { NavBar } from "./nav/NavBar"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
-import "./QuickFitS.css"
-
 
 export const QuickFitS = () => {
-	return <Routes>
-		<Route path="/login" element={<Login />} />
-		<Route path="/register" element={<Register />} />
+	return (
+		<body className=" bg-slate-200 rounded-lg">
+			<div >
+				<Routes>
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
 
-		<Route path="*" element={
-			<Authorized>
-				<>
-					<NavBar />
-					<ApplicationViews />
-				</>
-			</Authorized>
+					<Route path="*" element={
+						<Authorized>
+							<>
+								<NavBar />
+								<ApplicationViews />
+							</>
+						</Authorized>
 
-		} />
-	</Routes>
+					} />
+				</Routes>
+			</div>
+		</body>
+	)
 }
 
