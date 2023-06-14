@@ -16,6 +16,9 @@ export const NavBar = () => {
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/workouts">Workouts</Link>
             </li>
+            <li className="navbar__item active text-emerald-400 font-extrabold ">
+                <Link className="navbar__link" to="/workout">Workout Now</Link>
+            </li>
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/exercises">Exercises</Link>
             </li>

@@ -81,15 +81,12 @@ export const ExercisesPage = () => {
     }
 
     const handleGroupFilter = (groupId) => {
-        // groupId = parseInt(groupId)
         console.log(groupId)
         if (groupId === "0") {
-            // Show all exercises
             getExercises().then((exercisesRes) => {
                 setExercises(exercisesRes)
             })
         } else {
-            // Filter exercises by group
             getExercisesByGroup(groupId).then((exercisesRes) => {
                 setExercises(exercisesRes)
             })
@@ -130,28 +127,26 @@ export const ExercisesPage = () => {
                 </div>
             </div>
 
-            <div className="columns-2">
 
-                {exercises.map(exercise => {
-                    return (
-                        <div className="w-80 h-80 m-2 shadow-md p-4 rounded-lg bg-slate-300" key={exercise.id}>
-                            <div className="font-bold">Name: {exercise.name}</div>
-                            <div>Description: {exercise.description}</div>
-                            <div>Group: {exercise.workout_group?.name}</div>
-                            <div>Demonstration: <img className="h-32 rounded-xl " src={exercise.gif} alt="Exercise Demonstration" /></div>
-                            <div className="flex justify-end">
-                                <button
-                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mr-2"
-                                    onClick={() => openDeletePopup(exercise)}
-                                >
-                                    Delete
-                                </button>
-                            </div>
+            {exercises.map(exercise => {
+                return (
+                    <div className="m-2 w-1/2 shadow-md p-4 rounded-lg bg-slate-300" key={exercise.id}>
+                        <div className="font-bold text-lg">{exercise.name}</div>
+                        <div>Description: {exercise.description}</div>
+                        <div className="font-bold">{exercise.workout_group?.name}</div>
+                        <img className="h-56 rounded-xl mt-10" src={exercise.gif} alt="Exercise Demonstration" />
+                        <div className="flex justify-end">
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mr-2"
+                                onClick={() => openDeletePopup(exercise)}
+                            >
+                                Delete
+                            </button>
                         </div>
+                    </div>
 
-                    )
-                })}
-            </div>
+                )
+            })}
 
 
             {

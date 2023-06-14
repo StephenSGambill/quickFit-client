@@ -4,6 +4,7 @@ import { ProfilePage } from "../profile/ProfilePage"
 import { WorkoutsPage } from "../workouts/Workouts"
 import { ExercisesPage } from "../exercises/Exercises"
 import { MembersPage } from "../members/MembersPage"
+import { WorkoutPage } from "../workout/Workout"
 import 'tailwindcss/tailwind.css'
 
 
@@ -18,6 +19,7 @@ export const ApplicationViews = () => {
 				<Route path="workouts/" element={<WorkoutsPage />} />
 				<Route path="exercises/" element={<ExercisesPage />} />
 				<Route path="members/" element={<MembersPage />} />
+				<Route path="workout/" element={<WorkoutPage />} />
 			</Routes>
 		</div>
 	</>

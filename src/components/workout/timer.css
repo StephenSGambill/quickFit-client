@@ -1,0 +1,124 @@
+html,
+body {
+  background: rgb(40, 40, 40);
+}
+
+.container {
+  color: white;
+  font-family: "Arvo", serif;
+}
+
+.btn {
+  color: black;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 70px;
+}
+
+.header {
+  margin: 40px;
+  margin-bottom: 20px;
+}
+
+.presets {
+  margin-left: 40px;
+}
+
+.centerWrapper {
+  margin: 50px auto;
+  width: 500px;
+}
+
+.circle {
+  margin: 0 auto;
+  border: solid green;
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
+  float: left;
+  cursor: pointer;
+}
+
+#inner_circle {
+  position: absolute;
+  background: green;
+  margin-left: 7px;
+  margin-top: 7px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.timeInfo {
+  position: relative;
+  text-align: center;
+  margin-top: 55px;
+}
+
+h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+h2 {
+  font-weight: 700;
+}
+
+#timeR {
+  font-size: 90px;
+  margin-bottom: 0;
+}
+
+#timeE {
+  margin-top: 30px;
+  margin-bottom: 8px;
+}
+
+#label {
+  margin: 60px;
+  text-align: center;
+  font-size: 26px;
+}
+
+.customizations {
+  float: right;
+  text-align: center;
+  width: 100px;
+}
+
+.mybtn {
+  background: rgb(40, 40, 40);
+  border: none;
+}
+
+.btnL {
+  float: left;
+  margin: 0;
+}
+
+.btnR {
+  float: right;
+  margin-top: -18px;
+}
+
+.btns {
+  margin-top: 30px;
+}
+
+h4 {
+  margin: 0;
+  padding: 0;
+  margin-right: 20px;
+}
+
+#rstbtn {
+  margin-top: 30px;
+}
+
+p,
+h3 {
+  color: rgb(180, 180, 180);
+}
