@@ -6,7 +6,7 @@ export const NavBar = () => {
 
     return (
 
-        <ul className="navbar bg-gray-600 p-5  text-gray-50 shadow-md">
+        <ul className="navbar bg-gray-600 p-5 h-20 text-gray-50 shadow-md fixed top-0 left-0 right-0">
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/about">About</Link>
             </li>
@@ -15,6 +15,9 @@ export const NavBar = () => {
             </li>
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/workouts">Workouts</Link>
+            </li>
+            <li className="navbar__item active">
+                <Link className="navbar__link" to="/exercises">Exercises</Link>
             </li>
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/members">Members</Link>

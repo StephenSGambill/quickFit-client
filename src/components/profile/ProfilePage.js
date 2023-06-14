@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getCurrentMemberById } from "../managers/MemberManager"
+import { getCurrentMemberById, updateMemberDetails } from "../managers/MemberManager"
 import { getMemberCompletedWorkouts, getMemberCustomWorkouts, getWorkoutGroups } from "../managers/WorkoutManager"
 
 export const ProfilePage = () => {
@@ -7,6 +7,11 @@ export const ProfilePage = () => {
     const [memberCompletedWorkouts, setMemberCompletedWorkouts] = useState([])
     const [memberCustomWorkouts, setMemberCustomWorkouts] = useState([])
     const [workoutGroups, setWorkoutGroups] = useState("")
+    const [showEditDialog, setShowEditDialog] = useState(false)
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [motivation, setMotivation] = useState("")
+    const [memberPic, setMemberPic] = useState("")
     const localUser = localStorage.getItem("qfs_user")
     const userObject = JSON.parse(localUser)
 
@@ -20,9 +25,9 @@ export const ProfilePage = () => {
 
         ])
             .then(([currentMemberRes, completedWorkoutsRes, customWorkoutsRes, workoutGroupsRes]) => {
-                setCurrentMember(currentMemberRes);
-                setMemberCompletedWorkouts(completedWorkoutsRes);
-                setMemberCustomWorkouts(customWorkoutsRes);
+                setCurrentMember(currentMemberRes)
+                setMemberCompletedWorkouts(completedWorkoutsRes)
+                setMemberCustomWorkouts(customWorkoutsRes)
                 setWorkoutGroups(workoutGroupsRes)
             })
             .catch(error => {
@@ -41,12 +46,41 @@ export const ProfilePage = () => {
 
     const deleteWorkout = (workoutId, workoutType) => {
         // Logic to delete the workout with the specified ID and type (completed or custom)
-        console.log(`Deleting ${workoutType} workout with ID ${workoutId}`);
+        console.log(`Deleting ${workoutType} workout with ID ${workoutId}`)
     };
 
+    const openEditDialog = () => {
+        setShowEditDialog(true);
+        setFirstName(currentMember.user?.first_name)
+        setLastName(currentMember.user?.last_name)
+        setMotivation(currentMember.motivation)
+        setMemberPic(currentMember?.pic)
+    };
+
+    const closeEditDialog = () => {
+        setShowEditDialog(false);
+    };
+
+    const saveMemberDetails = () => {
+        const updatedMember = { ...currentMember }
+        updatedMember.user.first_name = firstName
+        updatedMember.user.last_name = lastName
+        updatedMember.motivation = motivation
+        updatedMember.pic = memberPic
+
+        updateMemberDetails(updatedMember)
+            .then(() => {
+                setCurrentMember(updatedMember)
+                setShowEditDialog(false)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
 
     return (
         <>
+            <div className="m-5 text-xl font-bold" >Profile Page</div>
             <div className="mt-5 ">
                 <a href="#completed-workouts">Go to Completed Workouts</a> |{" "}
                 <a href="#custom-workouts">Go to Custom Workouts</a>
@@ -59,6 +93,12 @@ export const ProfilePage = () => {
                         <div>
                             <h2 className="font-bold  ">Welcome {currentMember.user?.first_name} {currentMember.user?.last_name}!</h2>
                             <div className="italic bold ">Motivation: {currentMember.motivation}</div>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
+                                onClick={openEditDialog}
+                            >
+                                Edit Info
+                            </button>
                         </div>
                     </div>
 
@@ -105,7 +145,68 @@ export const ProfilePage = () => {
             <div className="flex justify-center mt-4">
                 <button onClick={scrollToTop}>Back to Top</button>
             </div>
+            {/* Edit Dialog */}
+            {showEditDialog && (
+                <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
+                    <div className="bg-white p-4 rounded-lg">
+                        <h3 className="text-lg font-bold mb-2">Edit Member Details</h3>
+                        <div className="flex flex-col space-y-4">
+                            <div>
+                                <label className="font-bold">First Name:</label>
+                                <input
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    className="border border-gray-400 rounded-md p-2"
+                                />
+                            </div>
+                            <div>
+                                <label className="font-bold">Last Name:</label>
+                                <input
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    className="border border-gray-400 rounded-md p-2"
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <label className="font-bold">Motivation Statement:</label>
+                                <textarea
+                                    value={motivation}
+                                    onChange={(e) => setMotivation(e.target.value)}
+                                    className="border border-gray-400 rounded-md p-2 h-40 w-80"
+                                />
+                            </div>
+                            <div>
+                                <label className="font-bold">Pic URL:</label>
+                                <input
+                                    type="text"
+                                    value={memberPic}
+                                    onChange={(e) => setMemberPic(e.target.value)}
+                                    className="border border-gray-400 rounded-md p-2 w-80"
+                                />
+                            </div>
+                            <div className="flex justify-end">
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2"
+                                    onClick={saveMemberDetails}
+                                >
+                                    Confirm
+                                </button>
+                                <button
+                                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+                                    onClick={closeEditDialog}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </>
     )
+
 }
 
