@@ -26,3 +26,12 @@ export const getWorkoutGroups = () => {
     })
         .then(response => response.json())
 }
+
+export const getWorkouts = () => {
+    return fetch(`http://localhost:8000/workouts`, {
+        headers: {
+            "Authorization": `Token ${getToken()}`
+        }
+    })
+        .then(response => response.json())
+}

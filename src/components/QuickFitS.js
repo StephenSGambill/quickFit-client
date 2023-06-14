@@ -7,7 +7,7 @@ import { Register } from "./auth/Register"
 
 export const QuickFitS = () => {
 	return (
-		<body className=" bg-slate-200 rounded-lg">
+		<div className=" bg-slate-200 rounded-lg">
 			<div >
 				<Routes>
 					<Route path="/login" element={<Login />} />
@@ -24,7 +24,7 @@ export const QuickFitS = () => {
 					} />
 				</Routes>
 			</div>
-		</body>
+		</div>
 	)
 }
 
