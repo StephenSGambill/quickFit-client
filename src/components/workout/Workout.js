@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./timer.css";
 
 export const WorkoutPage = () => {
     const [sessionLength, setSessionLength] = useState(20);
@@ -16,14 +15,15 @@ export const WorkoutPage = () => {
     }, [sessionLength, breakLength, numSessions, currentSession, breakOn, currentTime]);
 
     useEffect(() => {
+        setCurrentTime(sessionLength);
+    }, [sessionLength])
+    useEffect(() => {
         updateScreen();
     }, []); // Empty dependency array for initial setup
 
     useEffect(() => {
         checkTime();
     }, [currentTime, breakOn, currentSession]);
-
-
 
     const updateScreen = () => {
         checkTime();
@@ -34,28 +34,6 @@ export const WorkoutPage = () => {
         const secs = num - mins * 60;
         return `${mins}:${secs.toString().padStart(2, "0")}`;
     };
-
-    const handleTabataBtnClick = () => {
-        setSessionLength(20);
-        setCurrentTime(20);
-        setBreakLength(10);
-        setNumSessions(8);
-        setCurrentSession(8);
-        setTimeOn(false);
-        clearInterval(timer);
-        setBreakOn(false);
-    };
-
-    // const handlePomodoroBtnClick = () => {
-    //     setSessionLength(1500);
-    //     setCurrentTime(1500);
-    //     setBreakLength(300);
-    //     setNumSessions(4);
-    //     setCurrentSession(4);
-    //     setTimeOn(false);
-    //     clearInterval(timer);
-    //     setBreakOn(false);
-    // };
 
     const handleDecreaseSessionLength = () => {
         setSessionLength((prevValue) => Math.max(prevValue - 10, 0));
@@ -81,7 +59,24 @@ export const WorkoutPage = () => {
         setNumSessions((prevValue) => prevValue + 1);
     };
 
-    const handleCircleClick = () => {
+
+    const handleDecreaseSessionLengthBy5 = () => {
+        setSessionLength((prevValue) => Math.max(prevValue - 5, 0));
+    };
+
+    const handleIncreaseSessionLengthBy5 = () => {
+        setSessionLength((prevValue) => prevValue + 5);
+    };
+
+    const handleDecreaseBreakLengthBy5 = () => {
+        setBreakLength((prevValue) => Math.max(prevValue - 5, 0));
+    };
+
+    const handleIncreaseBreakLengthBy5 = () => {
+        setBreakLength((prevValue) => prevValue + 5);
+    };
+
+    const handleTimerClick = () => {
         if (!timeOn) {
             setTimeOn(true);
             const newTimer = setInterval(() => {
@@ -115,74 +110,99 @@ export const WorkoutPage = () => {
                 clearInterval(timer);
             }
         }
-    };
+    }
 
-    return (
-        <div className="container bg-white">
-            <div className="header">
-                <h1>Countdown</h1>
-            </div>
 
-            <div className="presets">
-                <button className="btn" onClick={handleTabataBtnClick}>
-                    Reset
-                </button>
-                {/* <button className="btn" onClick={handlePomodoroBtnClick}>
-                    Pomodoro
-                </button> */}
-            </div>
-
-            <div className="centerWrapper">
-                <div className="circle" id="circle" onClick={handleCircleClick}>
-                    <div id="inner_circle"></div>
-                    <div className="timeInfo">
-                        <h1 id="timeR">{convertNumToMin(currentTime)}</h1>
-                        <h3>time remaining</h3>
-                        <h2 id="timeE">{convertNumToMin(breakOn ? breakLength - currentTime : sessionLength - currentTime)}</h2>
-                        <h3>time elapsed</h3>
-                    </div>
-                    <h2 id="label">{breakOn ? "BREAK!" : "GO!"}&nbsp;&nbsp;&nbsp;{numSessions - currentSession + 1} / {numSessions}</h2>
-                </div>
-
-                <div className="customizations">
-                    <div className="btns">
-                        <p>session length</p>
-                        <button className="mybtn btnL" onClick={handleDecreaseSessionLength}>
-                            -
-                        </button>
-                        <h4 id="sessL">{convertNumToMin(sessionLength)}</h4>
-                        <button className="mybtn btnR" onClick={handleIncreaseSessionLength}>
-                            +
-                        </button>
-                    </div>
-                    <div className="btns">
-                        <p>break length</p>
-                        <button className="mybtn btnL" onClick={handleDecreaseBreakLength}>
-                            -
-                        </button>
-                        <h4 id="breakL">{convertNumToMin(breakLength)}</h4>
-                        <button className="mybtn btnR" onClick={handleIncreaseBreakLength}>
-                            +
-                        </button>
-                    </div>
-                    <div className="btns">
-                        <p>number of sessions</p>
-                        <button className="mybtn btnL" onClick={handleDecreaseNumSessions}>
-                            -
-                        </button>
-                        <h4 id="numS">{numSessions}</h4>
-                        <button className="mybtn btnR" onClick={handleIncreaseNumSessions}>
-                            +
-                        </button>
+    return (<>
+        <div className="m-5 text-xl font-bold">Workout Page</div>
+        <div className="flex justify-center">
+            <div className=" my-10 bg-slate-600 p-10 rounded-lg">
+                <div onClick={handleTimerClick}>
+                    <div
+                        className={`text-center mt-55 rounded-lg ${breakOn ? "bg-green-500" : "bg-red-500"
+                            }`}
+                    >
+                        <h1 className="text-6xl mb-0 rounded-lg bg-slate-300">
+                            {convertNumToMin(currentTime)}
+                        </h1>
+                        <h3 className="text-gray-50 text-lg m-0">
+                            {breakOn ? "Rest!" : "Work!"}
+                        </h3>
                     </div>
                 </div>
 
-                <button className="resetBtn" onClick={handleResetButtonClick}>
-                    Reset
-                </button>
+                <div className="text-center bg-slate-400 p-4 rounded-lg w-60">
+
+
+                    <p className="text-gray-50">Session Length</p>
+                    <div className="mt-4 flex items-center justify-between">
+                        <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseSessionLength}>
+                            -10
+                        </button>
+                        <button
+                            className="mr-2 bg-slate-300 w-6 rounded"
+                            onClick={handleDecreaseSessionLengthBy5}
+                        >
+                            -5
+                        </button>
+                        <h4>{convertNumToMin(sessionLength)}</h4>
+                        <button
+                            className="ml-2 bg-slate-300 w-6 rounded"
+                            onClick={handleIncreaseSessionLengthBy5}
+                        >
+                            +5
+                        </button>
+                        <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseSessionLength}>
+                            +10
+                        </button>
+                    </div>
+
+
+                    <p className="text-gray-50">Break Length</p>
+                    <div className="mt-4 flex items-center justify-between">
+                        <button className="mr-2  bg-slate-300 w-6 rounded" onClick={handleDecreaseBreakLength}>
+                            -10
+                        </button>
+                        <button
+                            className="mr-2 bg-slate-300 w-6 rounded"
+                            onClick={handleDecreaseBreakLengthBy5}
+                        >
+                            -5
+                        </button>
+                        <h4>{convertNumToMin(breakLength)}</h4>
+                        <button
+                            className="mr-2 bg-slate-300 w-6 rounded"
+                            onClick={handleIncreaseBreakLengthBy5}
+                        >
+                            +5
+                        </button>
+                        <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseBreakLength}>
+                            +10
+                        </button>
+                    </div>
+
+
+                    <p className="text-gray-50">Number of Sessions</p>
+                    <div className="mt-4 flex items-center justify-between">
+                        <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseNumSessions}>
+                            -1
+                        </button>
+                        <h4>{numSessions}</h4>
+                        <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseNumSessions}>
+                            +1
+                        </button>
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-4">
+                    <button className="bg-green-300 p-2 rounded-lg text-black" onClick={handleResetButtonClick}>
+                        Reset
+                    </button>
+                    <button className="bg-blue-300 p-2 rounded-lg text-black" onClick={handleTimerClick}>
+                        {timeOn ? "Pause" : "Start"}
+                    </button>
+                </div>
             </div>
         </div>
-    );
-};
-
-// export default WorkoutPage;
+    </>)
+}

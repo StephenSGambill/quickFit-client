@@ -17,7 +17,10 @@ export const NavBar = () => {
                 <Link className="navbar__link" to="/workouts">Workouts</Link>
             </li>
             <li className="navbar__item active text-emerald-400 font-extrabold ">
-                <Link className="navbar__link" to="/workout">Workout Now</Link>
+                <Link className="navbar__link  flex flex-col items-center justify-center" to="/workout">
+                    <div className="whitespace-normal">Workout</div>
+                    <div className="whitespace-normal">Now</div>
+                </Link>
             </li>
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/exercises">Exercises</Link>
