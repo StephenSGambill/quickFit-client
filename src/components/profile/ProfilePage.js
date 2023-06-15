@@ -45,7 +45,6 @@ export const ProfilePage = () => {
 
 
     const deleteWorkout = (workoutId, workoutType) => {
-        // Logic to delete the workout with the specified ID and type (completed or custom)
         console.log(`Deleting ${workoutType} workout with ID ${workoutId}`)
     };
 
@@ -63,15 +62,16 @@ export const ProfilePage = () => {
 
     const saveMemberDetails = () => {
         const updatedMember = { ...currentMember }
-        updatedMember.user.first_name = firstName
-        updatedMember.user.last_name = lastName
+        updatedMember.first_name = firstName
+        updatedMember.last_name = lastName
         updatedMember.motivation = motivation
         updatedMember.pic = memberPic
 
-        updateMemberDetails(updatedMember)
+        updateMemberDetails(updatedMember, userObject.user_id)
             .then(() => {
                 setCurrentMember(updatedMember)
                 setShowEditDialog(false)
+
             })
             .catch((error) => {
                 console.error(error)
@@ -113,12 +113,7 @@ export const ProfilePage = () => {
                                 <div>Name: {completedWorkout?.workout?.name}</div>
                                 <div>Group: {workoutGroup?.name}</div>
                                 <div>Date Completed: {completedWorkout?.date}</div>
-                                <button
-                                    className=" bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded mt-2"
-                                    onClick={() => deleteWorkout(completedWorkout.id, "completed")}
-                                >
-                                    Delete this workout
-                                </button>
+
                             </div>
 
                         )

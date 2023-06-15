@@ -127,7 +127,6 @@ export const ExercisesPage = () => {
                 </div>
             </div>
 
-
             {exercises.map(exercise => {
                 return (
                     <div className="m-2 w-1/2 shadow-md p-4 rounded-lg bg-slate-300" key={exercise.id}>

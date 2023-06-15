@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"
+import { useParams } from "react-router-dom"
 import workSound from "../mp3/boxing-bell.mp3"
 import restSound from "../mp3/buzzer.mp3"
+import { getWorkoutById } from "../managers/WorkoutManager"
 
 export const WorkoutPage = () => {
     const [sessionLength, setSessionLength] = useState(20);
     const [breakLength, setBreakLength] = useState(10);
-    const [numSessions, setNumSessions] = useState(8);
+    const [numSessions, setNumSessions] = useState(9);
     const [currentSession, setCurrentSession] = useState(numSessions);
     const [timeOn, setTimeOn] = useState(false);
     const [currentTime, setCurrentTime] = useState(sessionLength);
@@ -13,6 +15,19 @@ export const WorkoutPage = () => {
     const [breakOn, setBreakOn] = useState(false);
     const workAudioRef = useRef(null)
     const restAudioRef = useRef(null)
+    const { id } = useParams()
+    const [workout, setWorkout] = useState({})
+    const [exercises, setExercises] = useState([])
+
+
+    useEffect(() => {
+        getWorkoutById(id)
+            .then(workoutRef => {
+                setWorkout(workoutRef)
+                setExercises(workoutRef.exercises)
+            })
+    }, [])
+
 
     useEffect(() => {
         updateScreen();
@@ -23,7 +38,7 @@ export const WorkoutPage = () => {
     }, [sessionLength])
     useEffect(() => {
         updateScreen();
-    }, []); // Empty dependency array for initial setup
+    }, []);
 
     useEffect(() => {
         checkTime();
@@ -122,7 +137,7 @@ export const WorkoutPage = () => {
 
 
     return (<>
-        <div className="m-5 text-xl font-bold">Workout Page</div>
+        <div className="m-5 text-xl font-bold">Workout - {workout.name}</div>
         <div className="flex justify-center">
             <div className=" my-10 bg-slate-600 p-10 rounded-lg shadow-xl shadow-black">
                 <div onClick={handleTimerClick}>
@@ -213,6 +228,21 @@ export const WorkoutPage = () => {
             </div>
             <audio ref={workAudioRef} src={workSound} />
             <audio ref={restAudioRef} src={restSound} />
+        </div>
+        <div className="flex justify-center">
+            <div className="card">
+                {exercises.map(exercise => {
+                    return (
+                        <div className="bg-slate-400 p-2 m-2 rounded-lg" key={exercise.id}>
+                            <div className="font-bold text-lg">{exercise.name}</div>
+                            <div>Description: {exercise.description}</div>
+                            <div className="flex justify-center">
+                                <img className="h-56 rounded-xl mt-10 mx-auto" src={exercise.gif} alt="Exercise Demonstration" />
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
 
     </>)

@@ -28,7 +28,6 @@ export const Login = () => {
             .then(foundUser => {
                 if (foundUser) {
                     const user = foundUser
-                    console.log(user)
                     localStorage.setItem("qfs_user", JSON.stringify({
                         token: user.token,
                         is_staff: user.is_staff,
