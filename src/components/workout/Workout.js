@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react"
+import workSound from "../mp3/boxing-bell.mp3"
+import restSound from "../mp3/buzzer.mp3"
 
 export const WorkoutPage = () => {
     const [sessionLength, setSessionLength] = useState(20);
@@ -9,6 +11,8 @@ export const WorkoutPage = () => {
     const [currentTime, setCurrentTime] = useState(sessionLength);
     const [timer, setTimer] = useState(null);
     const [breakOn, setBreakOn] = useState(false);
+    const workAudioRef = useRef(null)
+    const restAudioRef = useRef(null)
 
     useEffect(() => {
         updateScreen();
@@ -101,6 +105,8 @@ export const WorkoutPage = () => {
         if (currentTime < 0 && !breakOn) {
             setCurrentTime(breakLength);
             setBreakOn(true);
+            restAudioRef.current.currentTime = 0; // Reset the audio to the beginning
+            restAudioRef.current.play(); // Play the audio
         } else if (currentTime < 0 && breakOn) {
             setCurrentTime(sessionLength);
             setBreakOn(false);
@@ -109,6 +115,8 @@ export const WorkoutPage = () => {
                 setTimeOn(false);
                 clearInterval(timer);
             }
+            workAudioRef.current.currentTime = 0; // Reset the audio to the beginning
+            workAudioRef.current.play(); // Play the audio
         }
     }
 
@@ -116,7 +124,7 @@ export const WorkoutPage = () => {
     return (<>
         <div className="m-5 text-xl font-bold">Workout Page</div>
         <div className="flex justify-center">
-            <div className=" my-10 bg-slate-600 p-10 rounded-lg">
+            <div className=" my-10 bg-slate-600 p-10 rounded-lg shadow-xl shadow-black">
                 <div onClick={handleTimerClick}>
                     <div
                         className={`text-center mt-55 rounded-lg ${breakOn ? "bg-green-500" : "bg-red-500"
@@ -134,7 +142,7 @@ export const WorkoutPage = () => {
                 <div className="text-center bg-slate-400 p-4 rounded-lg w-60">
 
 
-                    <p className="text-gray-50">Session Length</p>
+                    <p className="text-gray-50 ">Session Length</p>
                     <div className="mt-4 flex items-center justify-between">
                         <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseSessionLength}>
                             -10
@@ -145,7 +153,7 @@ export const WorkoutPage = () => {
                         >
                             -5
                         </button>
-                        <h4>{convertNumToMin(sessionLength)}</h4>
+                        <h4 className="text-2xl">{convertNumToMin(sessionLength)}</h4>
                         <button
                             className="ml-2 bg-slate-300 w-6 rounded"
                             onClick={handleIncreaseSessionLengthBy5}
@@ -169,7 +177,7 @@ export const WorkoutPage = () => {
                         >
                             -5
                         </button>
-                        <h4>{convertNumToMin(breakLength)}</h4>
+                        <h4 className="text-2xl">{convertNumToMin(breakLength)}</h4>
                         <button
                             className="mr-2 bg-slate-300 w-6 rounded"
                             onClick={handleIncreaseBreakLengthBy5}
@@ -187,7 +195,7 @@ export const WorkoutPage = () => {
                         <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseNumSessions}>
                             -1
                         </button>
-                        <h4>{numSessions}</h4>
+                        <h4 className="text-2xl">{numSessions}</h4>
                         <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseNumSessions}>
                             +1
                         </button>
@@ -203,6 +211,9 @@ export const WorkoutPage = () => {
                     </button>
                 </div>
             </div>
+            <audio ref={workAudioRef} src={workSound} />
+            <audio ref={restAudioRef} src={restSound} />
         </div>
+
     </>)
 }

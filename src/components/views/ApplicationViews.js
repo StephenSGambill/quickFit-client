@@ -20,6 +20,11 @@ export const ApplicationViews = () => {
 				<Route path="exercises/" element={<ExercisesPage />} />
 				<Route path="members/" element={<MembersPage />} />
 				<Route path="workout/" element={<WorkoutPage />} />
+				{/* START HERE */}
+				<Route path="workouts/id:" element={<WorkoutPage />} />
+				<Route path="customworkouts/id:" element={<WorkoutPage />} />
+
+
 			</Routes>
 		</div>
 	</>

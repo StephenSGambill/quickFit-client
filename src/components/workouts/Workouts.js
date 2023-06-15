@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { getMemberCustomWorkouts, getWorkoutGroups, getWorkouts } from "../managers/WorkoutManager"
 
 export const WorkoutsPage = () => {
@@ -7,6 +8,7 @@ export const WorkoutsPage = () => {
     const [workoutGroups, setWorkoutGroups] = useState([])
     const localUser = localStorage.getItem("qfs_user")
     const userObject = JSON.parse(localUser)
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -42,6 +44,9 @@ export const WorkoutsPage = () => {
                             <div>Description: {customWorkout.workout.description}</div>
                             <div>Group: {customWorkout.workout.workout_group?.name}</div>
                             <div>Exercises {customWorkout.workout.exercises?.map(exercise => <li key={exercise.id}>{exercise.name}</li>)}</div>
+                            <button
+                                className="bg-green-500 rounded-md p-2"
+                                onClick={() => navigate(`/workout/${customWorkout.workout.id}`)}>Do Workout</button>
                         </div>
                     )
                 })}
@@ -57,6 +62,8 @@ export const WorkoutsPage = () => {
                             <div>Description: {workout.description}</div>
                             <div>Group: {workoutGroup?.name}</div>
                             <div>Exercises {workout.exercises.map(exercise => <li key={exercise.id}>{exercise.name}</li>)}</div>
+                            <button className="bg-green-500 rounded-md p-2"
+                                onClick={() => navigate(`/workout/${workout.id}`)}>Do Workout</button>
                         </div>
                     )
                 })}
