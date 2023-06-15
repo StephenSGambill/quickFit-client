@@ -9,8 +9,8 @@ export const getCurrentMemberById = (id) => {
         .then(response => response.json())
 }
 
-export const updateMemberDetails = (updatedMember) => {
-    return fetch(`http://localhost:8000/members`, {
+export const updateMemberDetails = (updatedMember, id) => {
+    return fetch(`http://localhost:8000/members/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
