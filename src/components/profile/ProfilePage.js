@@ -89,7 +89,7 @@ export const ProfilePage = () => {
                     </div>
 
 
-                    <div className=" mt-10 font-extrabold " >Completed Workouts</div>
+                    <div className=" mt-10 font-extrabold " >Workout History</div>
                     <div className="max-h-6 overflow-y-auto"></div>
                     {completedWorkouts.map(completedWorkout => {
                         const workoutGroup = workoutGroups.find((group) => group.id === completedWorkout?.workout.workout_group)

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import workSound from "../mp3/boxing-bell.mp3"
 import restSound from "../mp3/buzzer.mp3"
-import { getWorkoutById } from "../managers/WorkoutManager"
+import { completeWorkout, getWorkoutById, saveWorkout } from "../managers/WorkoutManager"
 
 export const WorkoutPage = () => {
     const [sessionLength, setSessionLength] = useState(20);
@@ -18,6 +18,8 @@ export const WorkoutPage = () => {
     const { id } = useParams()
     const [workout, setWorkout] = useState({})
     const [exercises, setExercises] = useState([])
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -135,6 +137,17 @@ export const WorkoutPage = () => {
         }
     }
 
+    const handleMarkComplete = () => {
+        const completedWorkout = {
+            workout: workout.id
+        }
+        completeWorkout(completedWorkout)
+        setShowConfirmation(false)
+        navigate('/profile')
+
+    };
+
+
 
     return (<>
         <div className="m-5 text-xl font-bold">Workout - {workout.name}</div>
@@ -244,6 +257,34 @@ export const WorkoutPage = () => {
                 })}
             </div>
         </div>
+        <div className="flex justify-end">
+            <button className="bg-blue-300 p-2 rounded-lg text-black" onClick={() => setShowConfirmation(true)}>
+                Mark as Complete
+            </button>
+        </div>
 
-    </>)
+        {showConfirmation && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white p-8 rounded-lg">
+                    <h2 className="text-2xl font-bold mb-4">Confirmation</h2>
+                    <p className="text-gray-700 mb-4">Are you sure you want to mark the workout as complete?</p>
+                    <div className="flex justify-center">
+                        <button
+                            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mr-2"
+                            onClick={handleMarkComplete}
+                        >
+                            Confirm
+                        </button>
+                        <button
+                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                            onClick={() => setShowConfirmation(false)}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
+    </>
+    )
 }

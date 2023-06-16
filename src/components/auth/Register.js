@@ -33,22 +33,6 @@ export const Register = (props) => {
             })
     }
 
-    // const handleRegister = (e) => {
-    //     e.preventDefault()
-    //     return fetch(`http://localhost:8088/users?email=${customer.email}`)
-    //         .then(res => res.json())
-    //         .then(response => {
-    //             if (response.length > 0) {
-    //                 // Duplicate email. No good.
-    //                 window.alert("Account with that email address already exists")
-    //             }
-    //             else {
-    //                 // Good email, create user.
-    //                 registerNewUser()
-    //             }
-    //         })
-    // }
-
     const updateCustomer = (evt) => {
         const copy = { ...customer }
         copy[evt.target.id] = evt.target.value

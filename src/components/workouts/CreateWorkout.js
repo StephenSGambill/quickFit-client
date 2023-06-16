@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getMemberCustomWorkouts, getWorkoutGroups, getWorkouts, deleteWorkout, saveWorkout } from "../managers/WorkoutManager"
+import { getWorkoutGroups, saveWorkout } from "../managers/WorkoutManager"
 import { getExercises, saveExercise } from "../managers/ExcerciseManager"
 
 export const CreateWorkout = () => {

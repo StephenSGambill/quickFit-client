@@ -23,6 +23,7 @@ export const MembersPage = () => {
                 <div key={member.id} className="m-2 shadow-md p-4 rounded-lg bg-slate-300">
                     <img className="h-24 rounded-lg shadow-xl" src={member.pic} alt="user" />
                     <div>Name: {member.user.first_name} {member.user.last_name}</div>
+                    <div>Username: {member.user.username}</div>
                     <div>Motivation: {member.motivation}</div>
                 </div>
             ))

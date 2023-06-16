@@ -9,14 +9,6 @@ export const getCompletedWorkouts = () => {
         .then(response => response.json())
 }
 
-export const getMemberCustomWorkouts = () => {
-    return fetch(`http://localhost:8000/customworkouts`, {
-        headers: {
-            "Authorization": `Token ${getToken()}`
-        }
-    })
-        .then(response => response.json())
-}
 
 export const getWorkoutGroups = () => {
     return fetch(`http://localhost:8000/workoutgroups`, {
@@ -63,7 +55,6 @@ export const deleteWorkout = (id) => {
         });
 }
 
-
 export const saveWorkout = (newWorkout) => {
     return fetch(`http://localhost:8000/workouts`, {
         method: "POST",
@@ -72,6 +63,18 @@ export const saveWorkout = (newWorkout) => {
             "Authorization": `Token ${getToken()}`
         },
         body: JSON.stringify(newWorkout)
+    })
+        .then(response => response.json())
+}
+
+export const completeWorkout = (workoutId) => {
+    return fetch(`http://localhost:8000/completedworkouts`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${getToken()}`
+        },
+        body: JSON.stringify(workoutId)
     })
         .then(response => response.json())
 }
