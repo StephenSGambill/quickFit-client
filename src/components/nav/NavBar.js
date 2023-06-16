@@ -19,12 +19,13 @@ export const NavBar = () => {
                 <Link className="navbar__link transition-all duration-200 transform hover:font-extrabold hover:translate-x-2" to="/profile">Profile</Link>
             </li>
             <li className="navbar__item active">
+                <Link className="navbar__link transition-all duration-200 transform hover:font-extrabold hover:translate-x-2" to="/exercises">Exercises</Link>
+            </li>
+            <li className="navbar__item active">
                 <Link className="navbar__link transition-all duration-200 transform hover:font-extrabold hover:translate-x-2" to="/workouts">Workouts</Link>
             </li>
 
-            <li className="navbar__item active">
-                <Link className="navbar__link transition-all duration-200 transform hover:font-extrabold hover:translate-x-2" to="/exercises">Exercises</Link>
-            </li>
+
             <li className="navbar__item active">
                 <Link className="navbar__link transition-all duration-200 transform hover:font-extrabold hover:translate-x-2" to="/members">Members</Link>
             </li>

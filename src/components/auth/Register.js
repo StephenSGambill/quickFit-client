@@ -40,45 +40,86 @@ export const Register = (props) => {
     }
 
     return (
-        <main style={{ textAlign: "center" }}>
-            <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Please Register for QuickFitS</h1>
-                <fieldset>
-                    <label htmlFor="username"> Username </label>
-                    <input onChange={updateCustomer}
-                        type="text" id="username" className="form-control"
-                        placeholder="Enter your Username" required autoFocus />
+        <div className="flex items-center justify-center h-screen">
+            <form className="w-96 p-8 bg-white rounded shadow-lg" onSubmit={handleRegister}>
+                <h1 className="text-4xl font-bold mb-4">Please Register for QuickFitS</h1>
+                <fieldset className="mb-4">
+                    <label htmlFor="username" className="block mb-2 font-semibold">
+                        Username
+                    </label>
+                    <input
+                        onChange={updateCustomer}
+                        type="text"
+                        id="username"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your Username"
+                        required
+                        autoFocus
+                    />
+                </fieldset>
+                <fieldset className="mb-4">
+                    <label htmlFor="password" className="block mb-2 font-semibold">
+                        Password
+                    </label>
+                    <input
+                        onChange={updateCustomer}
+                        type="password"
+                        id="password"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Password"
+                        required
+                    />
+                </fieldset>
+                <fieldset className="mb-4">
+                    <label htmlFor="first_name" className="block mb-2 font-semibold">
+                        First Name
+                    </label>
+                    <input
+                        onChange={updateCustomer}
+                        type="text"
+                        id="first_name"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="First Name"
+                        required
+                    />
+                </fieldset>
+                <fieldset className="mb-4">
+                    <label htmlFor="last_name" className="block mb-2 font-semibold">
+                        Last Name
+                    </label>
+                    <input
+                        onChange={updateCustomer}
+                        type="text"
+                        id="last_name"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Last Name"
+                        required
+                    />
+                </fieldset>
+                <fieldset className="mb-4">
+                    <label htmlFor="email" className="block mb-2 font-semibold">
+                        Email
+                    </label>
+                    <input
+                        onChange={updateCustomer}
+                        type="email"
+                        id="email"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Email"
+                        required
+                    />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="password"> Password </label>
-                    <input onChange={updateCustomer}
-                        type="password" id="password" className="form-control"
-                        placeholder="Password" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="first_name"> First Name </label>
-                    <input onChange={updateCustomer}
-                        type="text" id="first_name" className="form-control"
-                        placeholder="First Name" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="last_name"> Last Name </label>
-                    <input onChange={updateCustomer}
-                        type="text" id="last_name" className="form-control"
-                        placeholder="Last Name" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="email"> Email </label>
-                    <input onChange={updateCustomer}
-                        type="email" id="email" className="form-control"
-                        placeholder="Email" required />
-                </fieldset>
-
-                <fieldset>
-                    <button type="submit"> Register </button>
+                    <button
+                        type="submit"
+                        className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+                    >
+                        Register
+                    </button>
                 </fieldset>
             </form>
-        </main>
-    )
+        </div>
+    );
+
 }
 

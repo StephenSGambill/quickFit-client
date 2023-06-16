@@ -18,14 +18,12 @@ export const Login = () => {
             username: username,
             password: password
         }
-        console.log(user)
 
         loginUser(user)
             .then(res => {
-                console.log(res)
                 if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem("qfs_user", res.token)
-                    navigate("/")
+                    navigate("/profile")
                 }
                 else {
                     invalidDialog.current.showModal()
@@ -34,40 +32,48 @@ export const Login = () => {
     }
 
     return (
-        <main className="container--login">
-            <section>
-                <form className="form--login" onSubmit={handleLogin}>
-                    <h1>QuickFitS</h1>
-                    <h2>Please sign in</h2>
-                    <fieldset>
-                        <label htmlFor="inputUsername"> Username</label>
-                        <input type="username"
+        <main className="container mx-auto">
+            <section className="flex flex-col items-center justify-center h-screen">
+                <form className="w-96 p-8 bg-white rounded shadow-lg" onSubmit={handleLogin}>
+                    <h1 className="text-4xl font-bold mb-4">QuickFitS</h1>
+                    <h2 className="text-lg font-semibold mb-4">Please sign in</h2>
+                    <fieldset className="mb-4">
+                        <label htmlFor="inputUsername" className="block mb-2 font-semibold">Username</label>
+                        <input
+                            type="username"
                             value={username}
-                            onChange={evt => setUsername(evt.target.value)}
-                            className="form-control"
+                            onChange={(evt) => setUsername(evt.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
                             placeholder="Username"
-                            required autoFocus />
+                            required
+                            autoFocus
+                        />
                     </fieldset>
-                    <fieldset>
-                        <label htmlFor="inputPassword"> Password </label>
-                        <input type="password"
+                    <fieldset className="mb-4">
+                        <label htmlFor="inputPassword" className="block mb-2 font-semibold">Password</label>
+                        <input
+                            type="password"
                             value={password}
-                            onChange={evt => setPassword(evt.target.value)}
-                            className="form-control"
+                            onChange={(evt) => setPassword(evt.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
                             placeholder="Password"
-                            required />
+                            required
+                        />
                     </fieldset>
                     <fieldset>
-                        <button type="submit">
+                        <button
+                            type="submit"
+                            className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+                        >
                             Sign in
                         </button>
                     </fieldset>
                 </form>
-            </section>
-            <section className="link--register">
-                <Link to="/register">Not a member yet?</Link>
+                <section className="mt-4 text-center">
+                    <Link to="/register" className="text-blue-500 hover:underline">Not a member yet?</Link>
+                </section>
             </section>
         </main>
-    )
+    );
 }
 

@@ -49,7 +49,6 @@ export const ProfilePage = () => {
 
     const saveMemberDetails = () => {
         const updatedMember = { ...currentMember }
-        console.log(updatedMember)
         updatedMember.first_name = firstName
         updatedMember.last_name = lastName
         updatedMember.motivation = motivation

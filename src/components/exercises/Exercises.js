@@ -81,7 +81,6 @@ export const ExercisesPage = () => {
     }
 
     const handleGroupFilter = (groupId) => {
-        console.log(groupId)
         if (groupId === "0") {
             getExercises().then((exercisesRes) => {
                 setExercises(exercisesRes)
