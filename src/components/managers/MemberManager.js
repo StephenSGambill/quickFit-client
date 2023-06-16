@@ -1,7 +1,7 @@
 import { getToken } from "../../utils/getToken"
 
-export const getCurrentMemberById = (id) => {
-    return fetch(`http://localhost:8000/members/${id}`, {
+export const getCurrentMemberById = () => {
+    return fetch(`http://localhost:8000/profile`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }

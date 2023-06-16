@@ -1,12 +1,15 @@
 import React, { useState, useRef } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom"
+import { loginUser } from "../managers/AuthManager";
 import "./Login.css"
+
 
 export const Login = () => {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const navigate = useNavigate()
+    const invalidDialog = useRef()
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -15,29 +18,17 @@ export const Login = () => {
             username: username,
             password: password
         }
+        console.log(user)
 
-        return fetch(`http://localhost:8000/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-            .then(foundUser => {
-                if (foundUser) {
-                    const user = foundUser
-                    localStorage.setItem("qfs_user", JSON.stringify({
-                        token: user.token,
-                        is_staff: user.is_staff,
-                        user_id: user.user_id
-                    }))
-
-                    navigate("/profile")
+        loginUser(user)
+            .then(res => {
+                console.log(res)
+                if ("valid" in res && res.valid && "token" in res) {
+                    localStorage.setItem("qfs_user", res.token)
+                    navigate("/")
                 }
                 else {
-                    window.alert("Invalid login")
+                    invalidDialog.current.showModal()
                 }
             })
     }

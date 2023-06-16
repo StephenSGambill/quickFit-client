@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
 import { getCurrentMemberById, updateMemberDetails } from "../managers/MemberManager"
-import { getMemberCompletedWorkouts, getMemberCustomWorkouts, getWorkoutGroups } from "../managers/WorkoutManager"
+import { getMemberCompletedWorkouts, getWorkoutGroups } from "../managers/WorkoutManager"
 
 export const ProfilePage = () => {
     const [currentMember, setCurrentMember] = useState({})
     const [memberCompletedWorkouts, setMemberCompletedWorkouts] = useState([])
-    const [memberCustomWorkouts, setMemberCustomWorkouts] = useState([])
     const [workoutGroups, setWorkoutGroups] = useState("")
     const [showEditDialog, setShowEditDialog] = useState(false)
     const [firstName, setFirstName] = useState("")
@@ -13,22 +12,20 @@ export const ProfilePage = () => {
     const [motivation, setMotivation] = useState("")
     const [memberPic, setMemberPic] = useState("")
     const localUser = localStorage.getItem("qfs_user")
-    const userObject = JSON.parse(localUser)
 
 
     useEffect(() => {
+        console.log(localUser)
         Promise.all([
-            getCurrentMemberById(userObject.user_id),
-            getMemberCompletedWorkouts(userObject.user_id),
-            getMemberCustomWorkouts(userObject.user_id),
-            getWorkoutGroups()
+            getCurrentMemberById(),
+            // getMemberCompletedWorkouts(userObject.user_id),
+            // getWorkoutGroups()
 
         ])
-            .then(([currentMemberRes, completedWorkoutsRes, customWorkoutsRes, workoutGroupsRes]) => {
+            .then(([currentMemberRes, completedWorkoutsRes, workoutGroupsRes]) => {
                 setCurrentMember(currentMemberRes)
-                setMemberCompletedWorkouts(completedWorkoutsRes)
-                setMemberCustomWorkouts(customWorkoutsRes)
-                setWorkoutGroups(workoutGroupsRes)
+                // setMemberCompletedWorkouts(completedWorkoutsRes)
+                // setWorkoutGroups(workoutGroupsRes)
             })
             .catch(error => {
                 console.error(error);
@@ -67,31 +64,28 @@ export const ProfilePage = () => {
         updatedMember.motivation = motivation
         updatedMember.pic = memberPic
 
-        updateMemberDetails(updatedMember, userObject.user_id)
-            .then(() => {
-                setCurrentMember(updatedMember)
-                setShowEditDialog(false)
+        // updateMemberDetails(updatedMember, userObject.user_id)
+        //     .then(() => {
+        //         setCurrentMember(updatedMember)
+        //         setShowEditDialog(false)
 
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        //     })
+        //     .catch((error) => {
+        //         console.error(error)
+        //     })
     }
 
     return (
         <>
             <div className="m-5 text-xl font-bold" >Profile Page</div>
-            <div className="mt-5 ">
-                <a href="#completed-workouts">Go to Completed Workouts</a> |{" "}
-                <a href="#custom-workouts">Go to Custom Workouts</a>
-            </div>
+
 
             <div className="flex justify-center " >
                 <div className="w-3/4 text-center" >
                     <div className="mt-10 text-left  shadow-md border-gray-400 bg-gray-300 p-4 rounded-lg divide-gray-900 flex justify-center items-center space-x-5">
                         <img className="h-24 rounded-lg shadow-xl" src={currentMember.pic} alt="user" />
                         <div>
-                            <h2 className="font-bold  ">Welcome {currentMember.user?.first_name} {currentMember.user?.last_name}!</h2>
+                            <h2 className="font-bold  ">Welcome {currentMember?.user.first_name} {currentMember?.user.last_name}!</h2>
                             <div className="italic bold ">Motivation: {currentMember.motivation}</div>
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
@@ -120,27 +114,10 @@ export const ProfilePage = () => {
 
                     })}
 
-                    <div id="custom-workouts" className=" mt-10 font-extrabold ">Custom Workouts</div>
-                    {memberCustomWorkouts.map(customWorkout => (
-                        <div key={customWorkout.id} className="m-2 p-4 shadow-md rounded-lg bg-slate-400" >
-                            <div>Name: {customWorkout?.workout?.name}</div>
-                            <div>Group: {customWorkout?.workout.workout_group?.name}</div>
-                            <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded mt-2"
-                                onClick={() => deleteWorkout(customWorkout.id, "custom")}
-                            >
-                                Delete this workout
-                            </button>
-                        </div>
 
-
-                    ))}
                 </div>
             </div>
-            <div className="flex justify-center mt-4">
-                <button onClick={scrollToTop}>Back to Top</button>
-            </div>
-            {/* Edit Dialog */}
+
             {showEditDialog && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
                     <div className="bg-white p-4 rounded-lg">

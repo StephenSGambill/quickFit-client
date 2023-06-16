@@ -39,7 +39,8 @@ export const WorkoutsPage = () => {
     const confirmDelete = () => {
         deleteWorkout(selectedWorkoutId)
             .then(() => {
-                getMemberCustomWorkouts().then(res => setMemberCustomWorkouts(res));
+                getMemberCustomWorkouts().then(res => setMemberCustomWorkouts(res))
+                getWorkouts().then(res => setWorkouts(res))
             })
             .catch(error => {
                 console.error(error);
