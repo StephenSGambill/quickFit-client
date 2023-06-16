@@ -1,44 +1,34 @@
 import { useEffect, useState } from "react"
-import { getCurrentMemberById, updateMemberDetails } from "../managers/MemberManager"
-import { getMemberCompletedWorkouts, getWorkoutGroups } from "../managers/WorkoutManager"
+import { getCurrentMember, updateMemberDetails } from "../managers/MemberManager"
+import { getCompletedWorkouts, getWorkoutGroups } from "../managers/WorkoutManager"
 
 export const ProfilePage = () => {
     const [currentMember, setCurrentMember] = useState({})
-    const [memberCompletedWorkouts, setMemberCompletedWorkouts] = useState([])
+    const [completedWorkouts, setCompletedWorkouts] = useState([])
     const [workoutGroups, setWorkoutGroups] = useState("")
     const [showEditDialog, setShowEditDialog] = useState(false)
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [motivation, setMotivation] = useState("")
     const [memberPic, setMemberPic] = useState("")
-    const localUser = localStorage.getItem("qfs_user")
 
 
     useEffect(() => {
-        console.log(localUser)
         Promise.all([
-            getCurrentMemberById(),
-            // getMemberCompletedWorkouts(userObject.user_id),
-            // getWorkoutGroups()
+            getCurrentMember(),
+            getCompletedWorkouts(),
+            getWorkoutGroups()
 
         ])
             .then(([currentMemberRes, completedWorkoutsRes, workoutGroupsRes]) => {
                 setCurrentMember(currentMemberRes)
-                // setMemberCompletedWorkouts(completedWorkoutsRes)
-                // setWorkoutGroups(workoutGroupsRes)
+                setCompletedWorkouts(completedWorkoutsRes)
+                setWorkoutGroups(workoutGroupsRes)
             })
             .catch(error => {
                 console.error(error);
             });
     }, []);
-
-
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    };
 
 
     const deleteWorkout = (workoutId, workoutType) => {
@@ -59,20 +49,21 @@ export const ProfilePage = () => {
 
     const saveMemberDetails = () => {
         const updatedMember = { ...currentMember }
+        console.log(updatedMember)
         updatedMember.first_name = firstName
         updatedMember.last_name = lastName
         updatedMember.motivation = motivation
         updatedMember.pic = memberPic
 
-        // updateMemberDetails(updatedMember, userObject.user_id)
-        //     .then(() => {
-        //         setCurrentMember(updatedMember)
-        //         setShowEditDialog(false)
+        updateMemberDetails(updatedMember)
+            .then(() => {
+                setCurrentMember(updatedMember)
+                setShowEditDialog(false)
 
-        //     })
-        //     .catch((error) => {
-        //         console.error(error)
-        //     })
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     return (
@@ -85,7 +76,8 @@ export const ProfilePage = () => {
                     <div className="mt-10 text-left  shadow-md border-gray-400 bg-gray-300 p-4 rounded-lg divide-gray-900 flex justify-center items-center space-x-5">
                         <img className="h-24 rounded-lg shadow-xl" src={currentMember.pic} alt="user" />
                         <div>
-                            <h2 className="font-bold  ">Welcome {currentMember?.user.first_name} {currentMember?.user.last_name}!</h2>
+                            <h2 className="font-bold  ">Welcome {currentMember?.user?.first_name} {currentMember?.user?.last_name}!</h2>
+                            <div className="italic bold ">User Name: {currentMember.user?.username}</div>
                             <div className="italic bold ">Motivation: {currentMember.motivation}</div>
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
@@ -99,7 +91,7 @@ export const ProfilePage = () => {
 
                     <div className=" mt-10 font-extrabold " >Completed Workouts</div>
                     <div className="max-h-6 overflow-y-auto"></div>
-                    {memberCompletedWorkouts.map(completedWorkout => {
+                    {completedWorkouts.map(completedWorkout => {
                         const workoutGroup = workoutGroups.find((group) => group.id === completedWorkout?.workout.workout_group)
 
                         return (

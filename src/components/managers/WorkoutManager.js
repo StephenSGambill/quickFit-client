@@ -1,6 +1,6 @@
 import { getToken } from "../../utils/getToken"
 
-export const getMemberCompletedWorkouts = () => {
+export const getCompletedWorkouts = () => {
     return fetch(`http://localhost:8000/completedworkouts`, {
         headers: {
             "Authorization": `Token ${getToken()}`

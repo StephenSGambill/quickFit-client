@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react"
-import { getCurrentMemberById, updateMemberDetails, getMembers } from "../managers/MemberManager"
-import { getMemberCompletedWorkouts, getMemberCustomWorkouts, getWorkoutGroups } from "../managers/WorkoutManager"
+import { getMembers } from "../managers/MemberManager"
 
 export const MembersPage = () => {
     const [members, setMembers] = useState([])
-
-    const localUser = localStorage.getItem("qfs_user")
-    const userObject = JSON.parse(localUser)
 
 
     useEffect(() => {

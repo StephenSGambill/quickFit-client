@@ -8,22 +8,21 @@ export const WorkoutsPage = () => {
     const [workoutGroups, setWorkoutGroups] = useState([])
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
-    const localUser = localStorage.getItem("qfs_user")
-    const userObject = JSON.parse(localUser)
+
     const navigate = useNavigate()
 
 
     useEffect(() => {
         Promise.all([
-            getWorkouts(userObject.user_id),
+            getWorkouts(),
             getWorkoutGroups(),
-            getMemberCustomWorkouts()
+            // getMemberCustomWorkouts()
 
         ])
             .then(([workoutsRes, groupsRes, customWorkoutsRes]) => {
                 setWorkouts(workoutsRes)
                 setWorkoutGroups(groupsRes)
-                setMemberCustomWorkouts(customWorkoutsRes)
+                // setMemberCustomWorkouts(customWorkoutsRes)
 
             })
             .catch(error => {
