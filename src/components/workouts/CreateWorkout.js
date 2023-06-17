@@ -93,9 +93,9 @@ export const CreateWorkout = () => {
     return (
         <>
             <div className="m-5 text-2xl font-bold">Create Workout</div>
-            <fieldset className="bg-gray-500 p-6 rounded-lg">
+            <fieldset className="bg-gray-400 p-6 rounded-lg">
                 <div className="mb-4">
-                    <label htmlFor="name" className="text-gray-100">Name:</label>
+                    <label htmlFor="name" className="text-black">Name:</label>
                     <input
                         type="text"
                         name="name"
@@ -108,7 +108,7 @@ export const CreateWorkout = () => {
                 </div>
                 <fieldset className="mb-4">
                     <div>
-                        <label htmlFor="description" className="text-gray-100">Description:</label>
+                        <label htmlFor="description" className="text-black">Description:</label>
                         <input
                             type="text"
                             name="description"
@@ -121,7 +121,7 @@ export const CreateWorkout = () => {
                 </fieldset>
                 <fieldset className="mb-4">
                     <div className="">
-                        <label htmlFor="workout_group" className="text-gray-100">Workout Group: </label>
+                        <label htmlFor="workout_group" className="text-black">Workout Group: </label>
                         <select
                             name="workout_group"
                             value={newWorkout.workout_group}
@@ -139,7 +139,7 @@ export const CreateWorkout = () => {
                 </fieldset>
                 <fieldset className="mb-4">
                     <div className="">
-                        <label className="text-gray-100">Exercises: (click to see description)</label>
+                        <label className="text-black">Exercises: (click to see description)</label>
                         {exercises.map((exercise) => (
                             <div key={exercise.id} className="flex items-center">
                                 <input

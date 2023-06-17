@@ -23,7 +23,7 @@ export const ProfilePage = () => {
             .then(([currentMemberRes, completedWorkoutsRes, workoutGroupsRes]) => {
                 setCurrentMember(currentMemberRes)
                 const sortedCompletedWorkouts = completedWorkoutsRes.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
-                setCompletedWorkouts(completedWorkoutsRes)
+                setCompletedWorkouts(sortedCompletedWorkouts)
                 setWorkoutGroups(workoutGroupsRes)
             })
             .catch(error => {
@@ -74,6 +74,8 @@ export const ProfilePage = () => {
                             <h2 className="font-bold">Welcome {currentMember?.user?.first_name} {currentMember?.user?.last_name}!</h2>
                             <div className="italic bold">User Name: {currentMember.user?.username}</div>
                             <div className="italic bold">Motivation: {currentMember.motivation}</div>
+                            <div className="italic bold">Email: {currentMember.user?.email}</div>
+
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
                                 onClick={openEditDialog}
