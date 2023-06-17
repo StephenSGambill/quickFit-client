@@ -5,24 +5,25 @@ import restSound from "../mp3/buzzer.mp3"
 import { completeWorkout, getWorkoutById, saveWorkout } from "../managers/WorkoutManager"
 
 export const WorkoutPage = () => {
-    const [sessionLength, setSessionLength] = useState(20);
-    const [breakLength, setBreakLength] = useState(10);
-    const [numSessions, setNumSessions] = useState(9);
-    const [currentSession, setCurrentSession] = useState(numSessions);
-    const [timeOn, setTimeOn] = useState(false);
-    const [currentTime, setCurrentTime] = useState(sessionLength);
-    const [timer, setTimer] = useState(null);
-    const [breakOn, setBreakOn] = useState(false);
+    const { id } = useParams()
+    const navigate = useNavigate()
     const workAudioRef = useRef(null)
     const restAudioRef = useRef(null)
-    const { id } = useParams()
+
+    const [roundLength, setRoundLength] = useState(0)
+    const [breakLength, setBreakLength] = useState(0)
+    const [rounds, setRounds] = useState(4)
+
+    const [currentRound, setCurrentRound] = useState(rounds)
+    const [currentTime, setCurrentTime] = useState(roundLength)
+    const [timeOn, setTimeOn] = useState(false)
+    const [timer, setTimer] = useState(null)
+    const [breakOn, setBreakOn] = useState(false)
     const [workout, setWorkout] = useState({})
     const [exercises, setExercises] = useState([])
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [currentCard, setCurrentCard] = useState(0);
 
-    const navigate = useNavigate()
-
+    const [showConfirmation, setShowConfirmation] = useState(false)
+    const [currentCard, setCurrentCard] = useState(0)
 
     useEffect(() => {
         getWorkoutById(id)
@@ -32,119 +33,126 @@ export const WorkoutPage = () => {
             })
     }, [])
 
+    //Messing around, and commented this out which immediately fixed my round problem and infinite time issues
+    // useEffect(() => {
+    //     updateScreen()
+    // }, [breakLength, rounds, currentRound, breakOn, currentTime])
 
     useEffect(() => {
-        updateScreen();
-    }, [sessionLength, breakLength, numSessions, currentSession, breakOn, currentTime]);
+        setCurrentTime(roundLength)
+        setCurrentRound(rounds)
+    }, [roundLength, rounds])
 
     useEffect(() => {
-        setCurrentTime(sessionLength);
-    }, [sessionLength])
-    useEffect(() => {
-        updateScreen();
-    }, []);
+        updateScreen()
+    }, [])
 
     useEffect(() => {
-        checkTime();
-    }, [currentTime, breakOn, currentSession]);
+        checkTime()
+    }, [currentTime, breakOn, currentRound])
 
     const updateScreen = () => {
-        checkTime();
-    };
+        checkTime()
+    }
+
+
 
     const convertNumToMin = (num) => {
-        const mins = Math.floor(num / 60);
-        const secs = num - mins * 60;
-        return `${mins}:${secs.toString().padStart(2, "0")}`;
-    };
+        const mins = Math.floor(num / 60)
+        const secs = num - mins * 60
+        return `${mins}:${secs.toString().padStart(2, "0")}`
+    }
 
-    const handleDecreaseSessionLength = () => {
-        setSessionLength((prevValue) => Math.max(prevValue - 10, 0));
-    };
 
-    const handleIncreaseSessionLength = () => {
-        setSessionLength((prevValue) => prevValue + 10);
-    };
-
+    const handleDecreaseroundLength = () => {
+        setRoundLength((prevValue) => Math.max(prevValue - 10, 0))
+    }
+    const handleIncreaseroundLength = () => {
+        setRoundLength((prevValue) => prevValue + 10)
+    }
     const handleDecreaseBreakLength = () => {
-        setBreakLength((prevValue) => Math.max(prevValue - 10, 0));
-    };
-
+        setBreakLength((prevValue) => Math.max(prevValue - 10, 0))
+    }
     const handleIncreaseBreakLength = () => {
-        setBreakLength((prevValue) => prevValue + 10);
-    };
-
-    const handleDecreaseNumSessions = () => {
-        setNumSessions((prevValue) => Math.max(prevValue - 1, 0));
-    };
-
-    const handleIncreaseNumSessions = () => {
-        setNumSessions((prevValue) => prevValue + 1);
-    };
-
-
-    const handleDecreaseSessionLengthBy5 = () => {
-        setSessionLength((prevValue) => Math.max(prevValue - 5, 0));
-    };
-
-    const handleIncreaseSessionLengthBy5 = () => {
-        setSessionLength((prevValue) => prevValue + 5);
-    };
-
+        setBreakLength((prevValue) => prevValue + 10)
+    }
+    const handleDecreaserounds = () => {
+        setRounds((prevValue) => Math.max(prevValue - 1, 0))
+    }
+    const handleIncreaserounds = () => {
+        setRounds((prevValue) => prevValue + 1)
+    }
+    const handleDecreaseroundLengthBy5 = () => {
+        setRoundLength((prevValue) => Math.max(prevValue - 5, 0))
+    }
+    const handleIncreaseroundLengthBy5 = () => {
+        setRoundLength((prevValue) => prevValue + 5)
+    }
     const handleDecreaseBreakLengthBy5 = () => {
-        setBreakLength((prevValue) => Math.max(prevValue - 5, 0));
-    };
-
+        setBreakLength((prevValue) => Math.max(prevValue - 5, 0))
+    }
     const handleIncreaseBreakLengthBy5 = () => {
-        setBreakLength((prevValue) => prevValue + 5);
-    };
+        setBreakLength((prevValue) => prevValue + 5)
+    }
+
 
     const handleTimerClick = () => {
         if (!timeOn) {
-            setTimeOn(true);
+            setTimeOn(true)
             const newTimer = setInterval(() => {
-                setCurrentTime((prevTime) => prevTime - 1);
-            }, 1000);
-            setTimer(newTimer);
+                setCurrentTime((prevTime) => prevTime - 1)
+            }, 1000)
+            setTimer(newTimer)
         } else {
-            setTimeOn(false);
-            clearInterval(timer);
+            setTimeOn(false)
+            clearInterval(timer)
         }
-    };
+    }
 
     const handleResetButtonClick = () => {
-        setCurrentTime(sessionLength);
-        setCurrentSession(numSessions);
-        setTimeOn(false);
-        clearInterval(timer);
-        setBreakOn(false);
-    };
+        setCurrentTime(roundLength)
+        setCurrentRound(rounds)
+        setTimeOn(false)
+        clearInterval(timer)
+        setBreakOn(false)
+    }
 
     const checkTime = () => {
         if (currentTime < 0 && !breakOn) {
-            setCurrentTime(breakLength);
-            setBreakOn(true);
-            restAudioRef.current.currentTime = 0; // Reset the audio to the beginning
-            restAudioRef.current.play(); // Play the audio
+            console.log(currentRound)
+            setCurrentTime(breakLength)
+            setBreakOn(true)
+            restAudioRef.current.currentTime = 0 // Reset the audio to the beginning
+            restAudioRef.current.play() // Play the audio
 
             if (currentCard === exercises.length - 1) {
-                setCurrentCard(0);
+                setCurrentCard(0)
             } else {
-                setCurrentCard((prevValue) => prevValue + 1);
+                setCurrentCard((prevValue) => prevValue + 1)
             }
         } else if (currentTime < 0 && breakOn) {
-            setCurrentTime(sessionLength);
-            setBreakOn(false);
-            setCurrentSession((prevValue) => prevValue - 1);
-            if (currentSession === 1) {
-                setTimeOn(false);
-                clearInterval(timer);
-            }
-            workAudioRef.current.currentTime = 0; // Reset the audio to the beginning
-            workAudioRef.current.play(); // Play the audio
-        }
-    };
+            setCurrentTime(roundLength)
+            setBreakOn(false)
+            // Update currentRound only when a new session begins
+            setCurrentRound((prevValue) => {
+                if (prevValue > 0) {
+                    return prevValue - 1
+                }
+                return prevValue
+            })
 
+            if (currentRound === 1) {
+                setTimeOn(false)
+                clearInterval(timer)
+            }
+            workAudioRef.current.currentTime = 0
+            workAudioRef.current.play()
+        }
+        if (currentRound === 0) {
+            setTimeOn(false)
+            clearInterval(timer)
+        }
+    }
 
     const handleMarkComplete = () => {
         const completedWorkout = {
@@ -154,7 +162,9 @@ export const WorkoutPage = () => {
         setShowConfirmation(false)
         navigate('/profile')
 
-    };
+    }
+
+
 
 
 
@@ -178,26 +188,26 @@ export const WorkoutPage = () => {
                                 </h3>
                             </div>
                         </div>
-                        <div className="settings-card text-center bg-slate-400 p-4 rounded-lg w-60 ml-12">
+                        <div className="settings-card text-center bg-slate-400 p-4 rounded-lg">
                             <p className="text-gray-50 ">Session Length</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseSessionLength}>
+                                <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseroundLength}>
                                     -10
                                 </button>
                                 <button
                                     className="mr-2 bg-slate-300 w-6 rounded"
-                                    onClick={handleDecreaseSessionLengthBy5}
+                                    onClick={handleDecreaseroundLengthBy5}
                                 >
                                     -5
                                 </button>
-                                <h4 className="text-2xl">{convertNumToMin(sessionLength)}</h4>
+                                <h4 className="text-2xl">{convertNumToMin(roundLength)}</h4>
                                 <button
                                     className="ml-2 bg-slate-300 w-6 rounded"
-                                    onClick={handleIncreaseSessionLengthBy5}
+                                    onClick={handleIncreaseroundLengthBy5}
                                 >
                                     +5
                                 </button>
-                                <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseSessionLength}>
+                                <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseroundLength}>
                                     +10
                                 </button>
                             </div>
@@ -229,11 +239,11 @@ export const WorkoutPage = () => {
 
                             <p className="text-gray-50">Number of Sessions</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseNumSessions}>
+                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaserounds}>
                                     -1
                                 </button>
-                                <h4 className="text-2xl">{numSessions}</h4>
-                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseNumSessions}>
+                                <h4 className="text-2xl">{rounds}</h4>
+                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaserounds}>
                                     +1
                                 </button>
                             </div>

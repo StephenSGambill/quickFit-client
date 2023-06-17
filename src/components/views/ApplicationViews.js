@@ -13,7 +13,7 @@ import 'tailwindcss/tailwind.css'
 export const ApplicationViews = () => {
 	return <>
 		<div className=" m-6 mt-20 pt-4 pb-20">
-			<img className="rounded-lg " src="./img/QFSfull.jpg" alt="QFS Logo" />
+			<img className="rounded-lg " src={process.env.PUBLIC_URL + "/img/QFSfull.jpg"} />
 			<div className=" text-2xl " >Get 'Er Done</div>
 			<Routes>
 				<Route path="about/" element={<AboutPage />} />
