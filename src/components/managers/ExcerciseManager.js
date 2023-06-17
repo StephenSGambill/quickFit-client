@@ -44,3 +44,21 @@ export const deleteExercise = (id) => {
             }
         });
 }
+
+export const updateExercise = (id, updatedExercise) => {
+    return fetch(`http://localhost:8000/exercises/${id}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Token ${getToken()}`,
+            "Content-Type": "application/json" // Specify the content type as JSON
+        },
+        body: JSON.stringify(updatedExercise) // Convert the body to JSON string
+    })
+        .then(response => {
+            if (response.status === 200) {
+                return Promise.resolve(); // No content to parse, resolve with an empty value
+            } else {
+                return response.json(); // Parse the response as JSON for other status codes
+            }
+        });
+}

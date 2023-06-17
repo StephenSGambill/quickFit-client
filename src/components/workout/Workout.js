@@ -16,8 +16,8 @@ export const WorkoutPage = () => {
     const workAudioRef = useRef(null)
     const restAudioRef = useRef(null)
 
-    const [roundLength, setRoundLength] = useState(0)
-    const [breakLength, setBreakLength] = useState(0)
+    const [roundLength, setRoundLength] = useState(45)
+    const [breakLength, setBreakLength] = useState(14)
     const [rounds, setRounds] = useState(4)
 
     const [currentRound, setCurrentRound] = useState(rounds)
@@ -215,7 +215,7 @@ export const WorkoutPage = () => {
                     <option value={soothing}>Soothing</option>
                 </select>
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2"
                     onClick={togglePlay}
                 >
                     {isPlaying ? "Pause" : "Play"}
@@ -240,7 +240,7 @@ export const WorkoutPage = () => {
                             </div>
                         </div>
                         <div className="settings-card text-center bg-slate-400 p-4 rounded-lg">
-                            <p className="text-gray-50 ">Session Length</p>
+                            <p className="text-gray-50 ">Work Length</p>
                             <div className="mt-4 flex items-center justify-between">
                                 <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseroundLength}>
                                     -10
@@ -288,7 +288,7 @@ export const WorkoutPage = () => {
                             </div>
 
 
-                            <p className="text-gray-50">Number of Sessions</p>
+                            <p className="text-gray-50">Number of Rounds</p>
                             <div className="mt-4 flex items-center justify-between">
                                 <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaserounds}>
                                     -1
@@ -315,8 +315,8 @@ export const WorkoutPage = () => {
 
                 <div className="w-1/2">
 
-                    <div className="card max-h-80">
-                        <div className="bg-slate-400 p-2 m-2 rounded-lg" key={exercises[currentCard]?.id}>
+                    <div className="card max-h-80 ">
+                        <div className="bg-slate-400 p-2 m-2 shadow-xl rounded-lg" key={exercises[currentCard]?.id}>
                             <div className="font-bold text-lg">{exercises[currentCard]?.name}</div>
                             <div>Description: {exercises[currentCard]?.description}</div>
                             <div className="flex justify-center">
@@ -333,7 +333,7 @@ export const WorkoutPage = () => {
 
             </div>
             <div className="text-center">
-                <button className="bg-blue-300 p-2 rounded-lg mt-8 text-black" onClick={() => setShowConfirmation(true)}>
+                <button className="bg-blue-300 p-2 rounded-lg shadow-lg mt-8 text-black" onClick={() => setShowConfirmation(true)}>
                     Mark as Complete
                 </button>
             </div>
