@@ -37,6 +37,23 @@ export const getWorkoutById = (id) => {
         .then(response => response.json())
 }
 
+export const updateWorkout = (id, updatedWorkout) => {
+    return fetch(`http://localhost:8000/workouts/${id}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Token ${getToken()}`,
+            "Content-Type": "application/json" // Specify the content type as JSON
+        },
+        body: JSON.stringify(updatedWorkout) // Convert the body to JSON string
+    })
+        .then(response => {
+            if (response.status === 204) {
+                return Promise.resolve(); // No content to parse, resolve with an empty value
+            } else {
+                return response.json(); // Parse the response as JSON for other status codes
+            }
+        });
+}
 
 
 export const deleteWorkout = (id) => {

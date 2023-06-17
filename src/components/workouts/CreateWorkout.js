@@ -90,103 +90,123 @@ export const CreateWorkout = () => {
     };
 
 
-    return (<>
-        <div className="m-5 text-xl font-bold">Create Workout</div>
-        <fieldset className="bg-gray-500 p-6 rounded-lg">
-            <div>
-                <label htmlFor="name">Name:</label>
-                <input type="text" name="name" required
-                    autoFocus
-                    value={newWorkout.name}
-                    onChange={handleInputChange}
-                />
-            </div>
-            <fieldset>
-                <div>
-                    <label htmlFor="description">Description:</label>
-                    <input type="text" name="description" required
-                        value={newWorkout.description}
+    return (
+        <>
+            <div className="m-5 text-2xl font-bold">Create Workout</div>
+            <fieldset className="bg-gray-500 p-6 rounded-lg">
+                <div className="mb-4">
+                    <label htmlFor="name" className="text-gray-100">Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        required
+                        autoFocus
+                        value={newWorkout.name}
                         onChange={handleInputChange}
+                        className="w-full bg-gray-200 p-2 rounded-md"
                     />
                 </div>
-            </fieldset>
-            <fieldset>
-                <div className="">
-                    <label htmlFor="workout_group">Workout Group: </label>
-                    <select name="workout_group" value={newWorkout.workout_group} onChange={handleInputChange}>
-                        <option value="0" >Select type...</option>
-                        {
-                            workoutGroups.map(workoutGroup =>
-                                <option key={workoutGroup.id} value={workoutGroup.id}>{workoutGroup.name}</option>)
-                        }
-                    </select>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="">
-                    <label>Exercises: (click to see description)</label>
-                    {exercises.map((exercise) => (
-                        <div key={exercise.id} className="flex items-center">
-                            <input
-                                type="checkbox"
-                                name="exercises"
-                                value={exercise.id}
-                                checked={newWorkout.exercises.includes(exercise.id)}
-                                onChange={handleCheckboxChange}
-                            />
-                            <button
-                                onClick={() => handleExerciseClick(exercise.id)}
-                                className="text-black transition-transform hover:scale-110 focus:outline-none font-bold ml-2"
-                            >
-                                {exercise.name}
-                            </button>
-                        </div>
-                    ))}
-
-                </div>
-            </fieldset>
-
-            <button className="bg-green-300 rounded-lg p-2 shadow-md " onClick={handleSaveWorkout}>Save Workout</button>
-            {showConfirmation && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-2 rounded-md">
-                        <h2 className="text-xl font-bold mb-2">Confirm Save</h2>
-                        <p>Are you sure you want to save the workout?</p>
-                        <div className="flex justify-end mt-4">
-                            <button
-                                className="bg-red-200 shadow-md rounded-md px-4 py-2 mr-2"
-                                onClick={confirmDelete}
-                            >
-                                Save
-                            </button>
-                            <button
-                                className="bg-gray-200 rounded-md px-4 py-2"
-                                onClick={cancelDelete}
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                <fieldset className="mb-4">
+                    <div>
+                        <label htmlFor="description" className="text-gray-100">Description:</label>
+                        <input
+                            type="text"
+                            name="description"
+                            required
+                            value={newWorkout.description}
+                            onChange={handleInputChange}
+                            className="w-full bg-gray-200 p-2 rounded-md"
+                        />
                     </div>
-                </div>
-            )}
-            {selectedExercise && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-4 rounded-md w-1/2">
-                        <h2 className="text-xl font-bold mb-2">Exercise Details</h2>
-                        <p className="font-bold">{selectedExercise.name}</p>
-                        <p className="">Description: {selectedExercise.description}</p>
-                        <button
-                            className="bg-gray-200 rounded-md px-4 py-2 mt-4"
-                            onClick={() => setSelectedExercise(null)}
+                </fieldset>
+                <fieldset className="mb-4">
+                    <div className="">
+                        <label htmlFor="workout_group" className="text-gray-100">Workout Group: </label>
+                        <select
+                            name="workout_group"
+                            value={newWorkout.workout_group}
+                            onChange={handleInputChange}
+                            className="w-full bg-gray-200 p-2 rounded-md"
                         >
-                            Close
-                        </button>
+                            <option value="0">Select type...</option>
+                            {workoutGroups.map((workoutGroup) => (
+                                <option key={workoutGroup.id} value={workoutGroup.id}>
+                                    {workoutGroup.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                </div>
-            )}
+                </fieldset>
+                <fieldset className="mb-4">
+                    <div className="">
+                        <label className="text-gray-100">Exercises: (click to see description)</label>
+                        {exercises.map((exercise) => (
+                            <div key={exercise.id} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    name="exercises"
+                                    value={exercise.id}
+                                    checked={newWorkout.exercises.includes(exercise.id)}
+                                    onChange={handleCheckboxChange}
+                                    className="mr-2"
+                                />
+                                <button
+                                    onClick={() => handleExerciseClick(exercise.id)}
+                                    className="text-black transition-transform hover:scale-110 focus:outline-none font-bold"
+                                >
+                                    {exercise.name}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </fieldset>
 
-        </fieldset>
-    </>)
+                <button
+                    className="bg-green-300 rounded-lg p-2 shadow-md"
+                    onClick={handleSaveWorkout}
+                >
+                    Save Workout
+                </button>
+                {showConfirmation && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-2 rounded-md">
+                            <h2 className="text-xl font-bold mb-2">Confirm Save</h2>
+                            <p>Are you sure you want to save the workout?</p>
+                            <div className="flex justify-end mt-4">
+                                <button
+                                    className="bg-red-200 shadow-md rounded-md px-4 py-2 mr-2"
+                                    onClick={confirmDelete}
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    className="bg-gray-200 rounded-md px-4 py-2"
+                                    onClick={cancelDelete}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {selectedExercise && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-4 rounded-md w-1/2">
+                            <h2 className="text-xl font-bold mb-2">Exercise Details</h2>
+                            <p className="font-bold">{selectedExercise.name}</p>
+                            <p className="">{selectedExercise.description}</p>
+                            <button
+                                className="bg-gray-200 rounded-md px-4 py-2 mt-4"
+                                onClick={() => setSelectedExercise(null)}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </fieldset>
+        </>
+    );
 }
 
 

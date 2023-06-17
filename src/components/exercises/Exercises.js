@@ -96,7 +96,7 @@ export const ExercisesPage = () => {
         <div>
             <div className="m-5 text-xl font-bold">Exercises Page</div>
 
-            <div className="flex items-center">
+            <div className="flex justify-center items-center mx-5">
                 <div className="flex justify-between items-center mx-5">
                     <div >
                         <label className="font-bold">Workout Group:</label>
@@ -128,7 +128,7 @@ export const ExercisesPage = () => {
 
             {exercises.map(exercise => {
                 return (
-                    <div className="m-2 w-1/2 shadow-md p-4 rounded-lg bg-slate-300" key={exercise.id}>
+                    <div className="m-2 w-1/2 shadow-md p-4 rounded-lg bg-slate-300 mx-auto" key={exercise.id}>
                         <div className="font-bold text-lg">{exercise.name}</div>
                         <div>Description: {exercise.description}</div>
                         <div className="font-bold">{exercise.workout_group?.name}</div>

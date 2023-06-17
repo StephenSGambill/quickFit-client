@@ -19,6 +19,8 @@ export const WorkoutPage = () => {
     const [workout, setWorkout] = useState({})
     const [exercises, setExercises] = useState([])
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [currentCard, setCurrentCard] = useState(0);
+
     const navigate = useNavigate()
 
 
@@ -124,6 +126,12 @@ export const WorkoutPage = () => {
             setBreakOn(true);
             restAudioRef.current.currentTime = 0; // Reset the audio to the beginning
             restAudioRef.current.play(); // Play the audio
+
+            if (currentCard === exercises.length - 1) {
+                setCurrentCard(0);
+            } else {
+                setCurrentCard((prevValue) => prevValue + 1);
+            }
         } else if (currentTime < 0 && breakOn) {
             setCurrentTime(sessionLength);
             setBreakOn(false);
@@ -135,7 +143,8 @@ export const WorkoutPage = () => {
             workAudioRef.current.currentTime = 0; // Reset the audio to the beginning
             workAudioRef.current.play(); // Play the audio
         }
-    }
+    };
+
 
     const handleMarkComplete = () => {
         const completedWorkout = {
@@ -149,142 +158,147 @@ export const WorkoutPage = () => {
 
 
 
-    return (<>
-        <div className="m-5 text-xl font-bold">Workout - {workout.name}</div>
-        <div className="flex justify-center">
-            <div className=" my-10 bg-slate-600 p-10 rounded-lg shadow-xl shadow-black">
-                <div onClick={handleTimerClick}>
-                    <div
-                        className={`text-center mt-55 rounded-lg ${breakOn ? "bg-green-500" : "bg-red-500"
-                            }`}
-                    >
-                        <h1 className="text-6xl mb-0 rounded-lg bg-slate-300">
-                            {convertNumToMin(currentTime)}
-                        </h1>
-                        <h3 className="text-gray-50 text-lg m-0">
-                            {breakOn ? "Rest!" : "Work!"}
-                        </h3>
-                    </div>
-                </div>
+    return (
+        <>
+            <div className="m-5 text-xl font-bold">Workout - {workout.name}</div>
 
-                <div className="text-center bg-slate-400 p-4 rounded-lg w-60">
-
-
-                    <p className="text-gray-50 ">Session Length</p>
-                    <div className="mt-4 flex items-center justify-between">
-                        <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseSessionLength}>
-                            -10
-                        </button>
-                        <button
-                            className="mr-2 bg-slate-300 w-6 rounded"
-                            onClick={handleDecreaseSessionLengthBy5}
-                        >
-                            -5
-                        </button>
-                        <h4 className="text-2xl">{convertNumToMin(sessionLength)}</h4>
-                        <button
-                            className="ml-2 bg-slate-300 w-6 rounded"
-                            onClick={handleIncreaseSessionLengthBy5}
-                        >
-                            +5
-                        </button>
-                        <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseSessionLength}>
-                            +10
-                        </button>
-                    </div>
-
-
-                    <p className="text-gray-50">Break Length</p>
-                    <div className="mt-4 flex items-center justify-between">
-                        <button className="mr-2  bg-slate-300 w-6 rounded" onClick={handleDecreaseBreakLength}>
-                            -10
-                        </button>
-                        <button
-                            className="mr-2 bg-slate-300 w-6 rounded"
-                            onClick={handleDecreaseBreakLengthBy5}
-                        >
-                            -5
-                        </button>
-                        <h4 className="text-2xl">{convertNumToMin(breakLength)}</h4>
-                        <button
-                            className="mr-2 bg-slate-300 w-6 rounded"
-                            onClick={handleIncreaseBreakLengthBy5}
-                        >
-                            +5
-                        </button>
-                        <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseBreakLength}>
-                            +10
-                        </button>
-                    </div>
-
-
-                    <p className="text-gray-50">Number of Sessions</p>
-                    <div className="mt-4 flex items-center justify-between">
-                        <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseNumSessions}>
-                            -1
-                        </button>
-                        <h4 className="text-2xl">{numSessions}</h4>
-                        <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseNumSessions}>
-                            +1
-                        </button>
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-4">
-                    <button className="bg-green-300 p-2 rounded-lg text-black" onClick={handleResetButtonClick}>
-                        Reset
-                    </button>
-                    <button className="bg-blue-300 p-2 rounded-lg text-black" onClick={handleTimerClick}>
-                        {timeOn ? "Pause" : "Start"}
-                    </button>
-                </div>
-            </div>
-            <audio ref={workAudioRef} src={workSound} />
-            <audio ref={restAudioRef} src={restSound} />
-        </div>
-        <div className="flex justify-center">
-            <div className="card">
-                {exercises.map(exercise => {
-                    return (
-                        <div className="bg-slate-400 p-2 m-2 rounded-lg" key={exercise.id}>
-                            <div className="font-bold text-lg">{exercise.name}</div>
-                            <div>Description: {exercise.description}</div>
-                            <div className="flex justify-center">
-                                <img className="h-56 rounded-xl mt-10 mx-auto" src={exercise.gif} alt="Exercise Demonstration" />
+            <div className="flex">
+                <div className="w-1/2">
+                    <div className=" mt-2 bg-slate-600 p-10 rounded-lg shadow-xl shadow-black">
+                        <div onClick={handleTimerClick}>
+                            <div
+                                className={`text-center mt-55 rounded-lg ${breakOn ? "bg-green-500" : "bg-red-500"
+                                    }`}
+                            >
+                                <h1 className="text-6xl mb-0 rounded-lg bg-slate-300">
+                                    {convertNumToMin(currentTime)}
+                                </h1>
+                                <h3 className="text-gray-50 text-lg m-0">
+                                    {breakOn ? "Rest!" : "Work!"}
+                                </h3>
                             </div>
                         </div>
-                    );
-                })}
-            </div>
-        </div>
-        <div className="flex justify-end">
-            <button className="bg-blue-300 p-2 rounded-lg text-black" onClick={() => setShowConfirmation(true)}>
-                Mark as Complete
-            </button>
-        </div>
+                        <div className="settings-card text-center bg-slate-400 p-4 rounded-lg w-60 ml-12">
+                            <p className="text-gray-50 ">Session Length</p>
+                            <div className="mt-4 flex items-center justify-between">
+                                <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseSessionLength}>
+                                    -10
+                                </button>
+                                <button
+                                    className="mr-2 bg-slate-300 w-6 rounded"
+                                    onClick={handleDecreaseSessionLengthBy5}
+                                >
+                                    -5
+                                </button>
+                                <h4 className="text-2xl">{convertNumToMin(sessionLength)}</h4>
+                                <button
+                                    className="ml-2 bg-slate-300 w-6 rounded"
+                                    onClick={handleIncreaseSessionLengthBy5}
+                                >
+                                    +5
+                                </button>
+                                <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseSessionLength}>
+                                    +10
+                                </button>
+                            </div>
 
-        {showConfirmation && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-white p-8 rounded-lg">
-                    <h2 className="text-2xl font-bold mb-4">Confirmation</h2>
-                    <p className="text-gray-700 mb-4">Are you sure you want to mark the workout as complete?</p>
-                    <div className="flex justify-center">
-                        <button
-                            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mr-2"
-                            onClick={handleMarkComplete}
-                        >
-                            Confirm
-                        </button>
-                        <button
-                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                            onClick={() => setShowConfirmation(false)}
-                        >
-                            Cancel
-                        </button>
+
+                            <p className="text-gray-50">Break Length</p>
+                            <div className="mt-4 flex items-center justify-between">
+                                <button className="mr-2  bg-slate-300 w-6 rounded" onClick={handleDecreaseBreakLength}>
+                                    -10
+                                </button>
+                                <button
+                                    className="mr-2 bg-slate-300 w-6 rounded"
+                                    onClick={handleDecreaseBreakLengthBy5}
+                                >
+                                    -5
+                                </button>
+                                <h4 className="text-2xl">{convertNumToMin(breakLength)}</h4>
+                                <button
+                                    className="mr-2 bg-slate-300 w-6 rounded"
+                                    onClick={handleIncreaseBreakLengthBy5}
+                                >
+                                    +5
+                                </button>
+                                <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseBreakLength}>
+                                    +10
+                                </button>
+                            </div>
+
+
+                            <p className="text-gray-50">Number of Sessions</p>
+                            <div className="mt-4 flex items-center justify-between">
+                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseNumSessions}>
+                                    -1
+                                </button>
+                                <h4 className="text-2xl">{numSessions}</h4>
+                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseNumSessions}>
+                                    +1
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between mt-4">
+                            <button className="bg-green-300 p-2 rounded-lg text-black" onClick={handleResetButtonClick}>
+                                Reset
+                            </button>
+                            <button className="bg-blue-300 p-2 rounded-lg text-black" onClick={handleTimerClick}>
+                                {timeOn ? "Pause" : "Start"}
+                            </button>
+                        </div>
+                    </div>
+                    <audio ref={workAudioRef} src={workSound} />
+                    <audio ref={restAudioRef} src={restSound} />
+                </div>
+
+                <div className="w-1/2">
+
+                    <div className="card max-h-80">
+                        <div className="bg-slate-400 p-2 m-2 rounded-lg" key={exercises[currentCard]?.id}>
+                            <div className="font-bold text-lg">{exercises[currentCard]?.name}</div>
+                            <div>Description: {exercises[currentCard]?.description}</div>
+                            <div className="flex justify-center">
+                                <img className="h-56 rounded-xl mt-10 mx-auto" src={exercises[currentCard]?.gif} alt="Exercise Demonstration" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold mt-8 text-yellow-300">
+                            {breakOn ? "Up Next" : "Go!"}
+                        </h1>
                     </div>
                 </div>
+
             </div>
-        )}
-    </>
+            <div className="text-center">
+                <button className="bg-blue-300 p-2 rounded-lg mt-8 text-black" onClick={() => setShowConfirmation(true)}>
+                    Mark as Complete
+                </button>
+            </div>
+
+            {showConfirmation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg">
+                        <h2 className="text-2xl font-bold mb-4">Confirmation</h2>
+                        <p className="text-gray-700 mb-4">Are you sure you want to mark the workout as complete?</p>
+                        <div className="flex justify-center">
+                            <button
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mr-2"
+                                onClick={handleMarkComplete}
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                                onClick={() => setShowConfirmation(false)}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     )
 }

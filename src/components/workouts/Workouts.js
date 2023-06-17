@@ -19,7 +19,8 @@ export const WorkoutsPage = () => {
 
         ])
             .then(([workoutsRes, groupsRes]) => {
-                setWorkouts(workoutsRes)
+                const sortedWorkouts = workoutsRes.slice().sort((a, b) => a.name.localeCompare(b.name));
+                setWorkouts(sortedWorkouts)
                 setWorkoutGroups(groupsRes)
 
             })
@@ -74,6 +75,8 @@ export const WorkoutsPage = () => {
                             <div>Creator: {workout.member.user.first_name} {workout.member.user.last_name} </div>
                             <button className="bg-green-300 shadow-md rounded-md p-2"
                                 onClick={() => navigate(`/workout/${workout.id}`)}>Do Workout</button>
+                            <button className="bg-blue-300 shadow-md ml-2 rounded-md p-2"
+                                onClick={() => navigate(`/workout/edit/${workout.id}`)}>Edit Workout</button>
                             <button
                                 className="bg-red-200  shadow-md rounded-md ml-2 p-2"
                                 onClick={() => handleDeleteWorkout(workout.id)}

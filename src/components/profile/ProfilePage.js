@@ -22,6 +22,7 @@ export const ProfilePage = () => {
         ])
             .then(([currentMemberRes, completedWorkoutsRes, workoutGroupsRes]) => {
                 setCurrentMember(currentMemberRes)
+                const sortedCompletedWorkouts = completedWorkoutsRes.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
                 setCompletedWorkouts(completedWorkoutsRes)
                 setWorkoutGroups(workoutGroupsRes)
             })
@@ -67,17 +68,16 @@ export const ProfilePage = () => {
 
     return (
         <>
-            <div className="m-5 text-xl font-bold" >Profile Page</div>
+            <div className="m-5 text-xl font-bold">Profile Page</div>
 
-
-            <div className="flex justify-center " >
-                <div className="w-3/4 text-center" >
-                    <div className="mt-10 text-left  shadow-md border-gray-400 bg-gray-300 p-4 rounded-lg divide-gray-900 flex justify-center items-center space-x-5">
+            <div className="flex justify-center">
+                <div className="w-3/4 text-center">
+                    <div className="mt-10 text-left shadow-md border-gray-400 bg-gray-300 p-4 rounded-lg divide-gray-900 flex justify-center items-center space-x-5">
                         <img className="h-24 rounded-lg shadow-xl" src={currentMember.pic} alt="user" />
                         <div>
-                            <h2 className="font-bold  ">Welcome {currentMember?.user?.first_name} {currentMember?.user?.last_name}!</h2>
-                            <div className="italic bold ">User Name: {currentMember.user?.username}</div>
-                            <div className="italic bold ">Motivation: {currentMember.motivation}</div>
+                            <h2 className="font-bold">Welcome {currentMember?.user?.first_name} {currentMember?.user?.last_name}!</h2>
+                            <div className="italic bold">User Name: {currentMember.user?.username}</div>
+                            <div className="italic bold">Motivation: {currentMember.motivation}</div>
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
                                 onClick={openEditDialog}
@@ -87,25 +87,20 @@ export const ProfilePage = () => {
                         </div>
                     </div>
 
+                    <div className="mt-10 font-extrabold">Workout History</div>
+                    <div className="max-h-80 overflow-y-auto">
+                        {completedWorkouts.map(completedWorkout => {
+                            const workoutGroup = workoutGroups.find((group) => group.id === completedWorkout?.workout.workout_group);
 
-                    <div className=" mt-10 font-extrabold " >Workout History</div>
-                    <div className="max-h-6 overflow-y-auto"></div>
-                    {completedWorkouts.map(completedWorkout => {
-                        const workoutGroup = workoutGroups.find((group) => group.id === completedWorkout?.workout.workout_group)
-
-                        return (
-                            <div id="completed-workouts" key={completedWorkout.id} className="m-2 shadow-md p-4 rounded-lg bg-slate-300">
-                                <div>Name: {completedWorkout?.workout?.name}</div>
-                                <div>Group: {workoutGroup?.name}</div>
-                                <div>Date Completed: {completedWorkout?.date}</div>
-
-                            </div>
-
-                        )
-
-                    })}
-
-
+                            return (
+                                <div id="completed-workouts" key={completedWorkout.id} className="m-2 shadow-md p-2 rounded-lg bg-slate-300">
+                                    <div className="font-bold">{completedWorkout?.workout?.name}</div>
+                                    <div>Group: {workoutGroup?.name}</div>
+                                    <div>Date Completed: {completedWorkout?.date}</div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 
@@ -117,47 +112,44 @@ export const ProfilePage = () => {
                             <div>
                                 <label className="font-bold">First Name:</label>
                                 <input
-                                    type="text"
+                                    className="border border-gray-300 p-2 rounded"
                                     value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
-                                    className="border border-gray-400 rounded-md p-2"
                                 />
                             </div>
                             <div>
                                 <label className="font-bold">Last Name:</label>
                                 <input
-                                    type="text"
+                                    className="border border-gray-300 p-2 rounded"
                                     value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
-                                    className="border border-gray-400 rounded-md p-2"
-                                />
-                            </div>
-                            <div className="flex flex-col">
-                                <label className="font-bold">Motivation Statement:</label>
-                                <textarea
-                                    value={motivation}
-                                    onChange={(e) => setMotivation(e.target.value)}
-                                    className="border border-gray-400 rounded-md p-2 h-40 w-80"
                                 />
                             </div>
                             <div>
-                                <label className="font-bold">Pic URL:</label>
+                                <label className="font-bold">Motivation:</label>
+                                <textarea
+                                    className="border border-gray-300 p-2 rounded"
+                                    value={motivation}
+                                    onChange={(e) => setMotivation(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label className="font-bold">Profile Picture URL:</label>
                                 <input
-                                    type="text"
+                                    className="border border-gray-300 p-2 rounded"
                                     value={memberPic}
                                     onChange={(e) => setMemberPic(e.target.value)}
-                                    className="border border-gray-400 rounded-md p-2 w-80"
                                 />
                             </div>
                             <div className="flex justify-end">
                                 <button
-                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2"
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                                     onClick={saveMemberDetails}
                                 >
-                                    Confirm
+                                    Save
                                 </button>
                                 <button
-                                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded ml-2"
                                     onClick={closeEditDialog}
                                 >
                                     Cancel
@@ -167,9 +159,6 @@ export const ProfilePage = () => {
                     </div>
                 </div>
             )}
-
         </>
-    )
-
-}
-
+    );
+};
