@@ -17,8 +17,8 @@ export const MembersPage = () => {
 
 
     return (
-        <div className="bg-gray-100 min-h-screen rounded-lg">
-            <div className="m-5 text-3xl font-bold text-center">Members Page</div>
+        <div className="bg-gray-300 min-h-screen rounded-lg">
+            <div className="m-5 text-3xl font-bold text-center p-2">Members Page</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
                 {members.map((member) => (
                     <div key={member.id} className="bg-white rounded-lg shadow-md p-4">

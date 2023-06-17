@@ -111,7 +111,7 @@ export const EditWorkout = () => {
 
     return (<>
         <div className="m-5 text-xl font-bold">Edit Workout</div>
-        <fieldset className="bg-gray-500 p-6 rounded-lg">
+        <fieldset className="bg-gray-400 p-6 rounded-lg">
             <div>
                 <label htmlFor="name">Name:</label>
                 <input type="text" name="name" required

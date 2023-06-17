@@ -2,6 +2,12 @@ import React, { useState, useEffect, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import workSound from "../mp3/boxing-bell.mp3"
 import restSound from "../mp3/buzzer.mp3"
+import ambientPiano from "../mp3/ambient-piano.mp3"
+import lofi from "../mp3/lofi.mp3"
+import guitar from "../mp3/guitar.mp3"
+import hyped from "../mp3/hyped.mp3"
+import soothing from "../mp3/soothing.mp3"
+
 import { completeWorkout, getWorkoutById, saveWorkout } from "../managers/WorkoutManager"
 
 export const WorkoutPage = () => {
@@ -24,6 +30,10 @@ export const WorkoutPage = () => {
 
     const [showConfirmation, setShowConfirmation] = useState(false)
     const [currentCard, setCurrentCard] = useState(0)
+
+    const [selectedAudio, setSelectedAudio] = useState("");
+    const audioRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
         getWorkoutById(id)
@@ -50,6 +60,14 @@ export const WorkoutPage = () => {
     useEffect(() => {
         checkTime()
     }, [currentTime, breakOn, currentRound])
+
+    useEffect(() => {
+        if (selectedAudio) {
+            audioRef.current.src = selectedAudio;
+            setIsPlaying(true)
+            audioRef.current.play();
+        }
+    }, [selectedAudio]);
 
     const updateScreen = () => {
         checkTime()
@@ -165,12 +183,45 @@ export const WorkoutPage = () => {
     }
 
 
+    const handleAudioChange = (event) => {
+        setSelectedAudio(event.target.value);
+    };
 
+    const togglePlay = () => {
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+    };
 
 
     return (
         <>
             <div className="m-5 text-xl font-bold">Workout - {workout.name}</div>
+
+            <div className="items-center space-y-4">
+                <select
+                    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={selectedAudio}
+                    onChange={handleAudioChange}
+                >
+                    <option value="">Select Audio</option>
+                    <option value={ambientPiano}>Ambient Piano</option>
+                    <option value={guitar}>Guitar</option>
+                    <option value={hyped}>Hyped</option>
+                    <option value={lofi}>Lo-Fi</option>
+                    <option value={soothing}>Soothing</option>
+                </select>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onClick={togglePlay}
+                >
+                    {isPlaying ? "Pause" : "Play"}
+                </button>
+                <audio ref={audioRef} loop />
+            </div>
 
             <div className="flex">
                 <div className="w-1/2">
