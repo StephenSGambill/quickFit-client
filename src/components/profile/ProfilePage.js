@@ -32,10 +32,6 @@ export const ProfilePage = () => {
     }, []);
 
 
-    const deleteWorkout = (workoutId, workoutType) => {
-        console.log(`Deleting ${workoutType} workout with ID ${workoutId}`)
-    };
-
     const openEditDialog = () => {
         setShowEditDialog(true);
         setFirstName(currentMember.user?.first_name)
