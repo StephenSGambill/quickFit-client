@@ -43,11 +43,6 @@ export const WorkoutPage = () => {
             })
     }, [])
 
-    //Messing around, and commented this out which immediately fixed my round problem and infinite time issues
-    // useEffect(() => {
-    //     updateScreen()
-    // }, [breakLength, rounds, currentRound, breakOn, currentTime])
-
     useEffect(() => {
         setCurrentTime(roundLength)
         setCurrentRound(rounds)
@@ -140,8 +135,8 @@ export const WorkoutPage = () => {
             console.log(currentRound)
             setCurrentTime(breakLength)
             setBreakOn(true)
-            restAudioRef.current.currentTime = 0 // Reset the audio to the beginning
-            restAudioRef.current.play() // Play the audio
+            restAudioRef.current.currentTime = 0
+            restAudioRef.current.play()
 
             if (currentCard === exercises.length - 1) {
                 setCurrentCard(0)
@@ -151,7 +146,6 @@ export const WorkoutPage = () => {
         } else if (currentTime < 0 && breakOn) {
             setCurrentTime(roundLength)
             setBreakOn(false)
-            // Update currentRound only when a new session begins
             setCurrentRound((prevValue) => {
                 if (prevValue > 0) {
                     return prevValue - 1

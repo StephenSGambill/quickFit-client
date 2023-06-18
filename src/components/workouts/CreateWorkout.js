@@ -69,12 +69,10 @@ export const CreateWorkout = () => {
         setShowConfirmation(false);
         saveWorkout(newWorkout)
             .then((response) => {
-                console.log("Workout saved successfully");
                 navigate("/workouts");
             })
             .catch((error) => {
                 console.error("Failed to save workout", error);
-                // Display an error message to the user
             });
     };
 

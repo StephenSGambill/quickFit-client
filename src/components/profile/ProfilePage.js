@@ -141,16 +141,16 @@ export const ProfilePage = () => {
                             </div>
                             <div className="flex justify-end">
                                 <button
-                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                                    onClick={saveMemberDetails}
-                                >
-                                    Save
-                                </button>
-                                <button
-                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded ml-2"
+                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded "
                                     onClick={closeEditDialog}
                                 >
                                     Cancel
+                                </button>
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 ml-2 rounded"
+                                    onClick={saveMemberDetails}
+                                >
+                                    Save
                                 </button>
                             </div>
                         </div>

@@ -38,7 +38,6 @@ export const getWorkoutById = (id) => {
 }
 
 export const updateWorkout = (id, updatedWorkout) => {
-    console.log(updateWorkout)
     return fetch(`http://localhost:8000/workouts/${id}`, {
         method: "PUT",
         headers: {

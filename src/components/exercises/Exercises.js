@@ -101,7 +101,6 @@ export const ExercisesPage = () => {
             })
             .catch(error => {
                 console.error(error);
-                // Handle error if necessary
             });
     };
 
@@ -114,7 +113,6 @@ export const ExercisesPage = () => {
             })
             .catch(error => {
                 console.error(error);
-                // Handle error if necessary
             });
     };
 
