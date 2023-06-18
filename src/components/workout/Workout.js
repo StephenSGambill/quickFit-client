@@ -8,7 +8,7 @@ import guitar from "../mp3/guitar.mp3"
 import hyped from "../mp3/hyped.mp3"
 import soothing from "../mp3/soothing.mp3"
 
-import { completeWorkout, getWorkoutById, saveWorkout } from "../managers/WorkoutManager"
+import { completeWorkout, getWorkoutById } from "../managers/WorkoutManager"
 
 export const WorkoutPage = () => {
     const { id } = useParams()
@@ -17,7 +17,7 @@ export const WorkoutPage = () => {
     const restAudioRef = useRef(null)
 
     const [roundLength, setRoundLength] = useState(45)
-    const [breakLength, setBreakLength] = useState(14)
+    const [breakLength, setBreakLength] = useState(15)
     const [rounds, setRounds] = useState(4)
 
     const [currentRound, setCurrentRound] = useState(rounds)
@@ -34,18 +34,28 @@ export const WorkoutPage = () => {
     const [selectedAudio, setSelectedAudio] = useState("");
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
 
     useEffect(() => {
-        getWorkoutById(id)
-            .then(workoutRef => {
-                setWorkout(workoutRef)
-                setExercises(workoutRef.exercises)
-            })
-    }, [])
+        const fetchWorkout = async () => {
+            try {
+                const [workoutRef] = await Promise.all([getWorkoutById(id)]);
+                setWorkout(workoutRef);
+                setExercises(workoutRef.exercises);
+                setRounds(workoutRef.exercises?.length * rounds);
+            } catch (error) {
+                // Handle any errors that occur during the Promise execution
+                console.error(error);
+            }
+        };
+
+        fetchWorkout();
+    }, []);
 
     useEffect(() => {
         setCurrentTime(roundLength)
-        setCurrentRound(rounds)
+
     }, [roundLength, rounds])
 
     useEffect(() => {
@@ -75,7 +85,6 @@ export const WorkoutPage = () => {
         const secs = num - mins * 60
         return `${mins}:${secs.toString().padStart(2, "0")}`
     }
-
 
     const handleDecreaseroundLength = () => {
         setRoundLength((prevValue) => Math.max(prevValue - 10, 0))
@@ -132,7 +141,6 @@ export const WorkoutPage = () => {
 
     const checkTime = () => {
         if (currentTime < 0 && !breakOn) {
-            console.log(currentRound)
             setCurrentTime(breakLength)
             setBreakOn(true)
             restAudioRef.current.currentTime = 0
@@ -219,13 +227,13 @@ export const WorkoutPage = () => {
 
             <div className="flex">
                 <div className="w-1/2">
-                    <div className=" mt-2 bg-slate-600 p-10 rounded-lg shadow-xl shadow-black">
+                    <div className=" mt-2 bg-slate-600 p-10 rounded shadow-xl shadow-black">
                         <div onClick={handleTimerClick}>
                             <div
-                                className={`text-center mt-55 rounded-lg ${breakOn ? "bg-green-500" : "bg-red-500"
+                                className={`text-center mt-55 rounded ${breakOn ? "bg-green-600" : "bg-red-500"
                                     }`}
                             >
-                                <h1 className="text-6xl mb-0 rounded-lg bg-slate-300">
+                                <h1 className="text-6xl mb-0 rounded bg-slate-300">
                                     {convertNumToMin(currentTime)}
                                 </h1>
                                 <h3 className="text-gray-50 text-lg m-0">
@@ -233,26 +241,26 @@ export const WorkoutPage = () => {
                                 </h3>
                             </div>
                         </div>
-                        <div className="settings-card text-center bg-slate-400 p-4 rounded-lg">
+                        <div className="settings-card text-center bg-slate-400 p-4 rounded">
                             <p className="text-gray-50 ">Work Length</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className="mr-2 bg-slate-300 w-6 rounded" onClick={handleDecreaseroundLength}>
+                                <button className=" bg-slate-300 w-8 rounded" onClick={handleDecreaseroundLength}>
                                     -10
                                 </button>
                                 <button
-                                    className="mr-2 bg-slate-300 w-6 rounded"
+                                    className=" bg-slate-300 w-6 rounded"
                                     onClick={handleDecreaseroundLengthBy5}
                                 >
                                     -5
                                 </button>
                                 <h4 className="text-2xl">{convertNumToMin(roundLength)}</h4>
                                 <button
-                                    className="ml-2 bg-slate-300 w-6 rounded"
+                                    className=" bg-slate-300 w-6 rounded"
                                     onClick={handleIncreaseroundLengthBy5}
                                 >
                                     +5
                                 </button>
-                                <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseroundLength}>
+                                <button className="  bg-slate-300 w-8 rounded" onClick={handleIncreaseroundLength}>
                                     +10
                                 </button>
                             </div>
@@ -260,23 +268,23 @@ export const WorkoutPage = () => {
 
                             <p className="text-gray-50">Break Length</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className="mr-2  bg-slate-300 w-6 rounded" onClick={handleDecreaseBreakLength}>
+                                <button className="  bg-slate-300 w-8 rounded" onClick={handleDecreaseBreakLength}>
                                     -10
                                 </button>
                                 <button
-                                    className="mr-2 bg-slate-300 w-6 rounded"
+                                    className=" bg-slate-300 w-6 rounded"
                                     onClick={handleDecreaseBreakLengthBy5}
                                 >
                                     -5
                                 </button>
                                 <h4 className="text-2xl">{convertNumToMin(breakLength)}</h4>
                                 <button
-                                    className="mr-2 bg-slate-300 w-6 rounded"
+                                    className=" bg-slate-300 w-6 rounded"
                                     onClick={handleIncreaseBreakLengthBy5}
                                 >
                                     +5
                                 </button>
-                                <button className="ml-2  bg-slate-300 w-6 rounded" onClick={handleIncreaseBreakLength}>
+                                <button className=" bg-slate-300 w-8 rounded" onClick={handleIncreaseBreakLength}>
                                     +10
                                 </button>
                             </div>
@@ -295,10 +303,10 @@ export const WorkoutPage = () => {
                         </div>
 
                         <div className="flex items-center justify-between mt-4">
-                            <button className="bg-green-300 p-2 rounded-lg text-black" onClick={handleResetButtonClick}>
+                            <button className="bg-green-600 hover:bg-green-700 p-2 rounded text-white" onClick={handleResetButtonClick}>
                                 Reset
                             </button>
-                            <button className="bg-blue-300 p-2 rounded-lg text-black" onClick={handleTimerClick}>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={handleTimerClick}>
                                 {timeOn ? "Pause" : "Start"}
                             </button>
                         </div>
@@ -310,7 +318,7 @@ export const WorkoutPage = () => {
                 <div className="w-1/2">
 
                     <div className="card max-h-80 ">
-                        <div className="bg-slate-400 p-2 m-2 shadow-xl rounded-lg" key={exercises[currentCard]?.id}>
+                        <div className="bg-slate-400 p-2 m-2 shadow-xl rounded" key={exercises[currentCard]?.id}>
                             <div className="font-bold text-lg">{exercises[currentCard]?.name}</div>
                             <div>Description: {exercises[currentCard]?.description}</div>
                             <div className="flex justify-center">
@@ -319,7 +327,7 @@ export const WorkoutPage = () => {
                         </div>
                     </div>
                     <div className="text-center">
-                        <h1 className="text-4xl font-bold mt-8 text-yellow-300">
+                        <h1 className="text-4xl font-bold mt-8 text-orange-600 ">
                             {breakOn ? "Up Next" : "Go!"}
                         </h1>
                     </div>
@@ -327,25 +335,26 @@ export const WorkoutPage = () => {
 
             </div>
             <div className="text-center">
-                <button className="bg-blue-300 p-2 rounded-lg shadow-lg mt-8 text-black" onClick={() => setShowConfirmation(true)}>
+                <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded shadow-lg mt-8 " onClick={() => setShowConfirmation(true)}>
                     Mark as Complete
                 </button>
+
             </div>
 
             {showConfirmation && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-8 rounded-lg">
+                    <div className="bg-white p-8 rounded">
                         <h2 className="text-2xl font-bold mb-4">Confirmation</h2>
                         <p className="text-gray-700 mb-4">Are you sure you want to mark the workout as complete?</p>
                         <div className="flex justify-center">
                             <button
-                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mr-2"
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mr-2"
                                 onClick={handleMarkComplete}
                             >
                                 Confirm
                             </button>
                             <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
                                 onClick={() => setShowConfirmation(false)}
                             >
                                 Cancel

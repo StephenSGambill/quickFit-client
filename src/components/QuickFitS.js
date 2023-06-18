@@ -7,7 +7,7 @@ import { Register } from "./auth/Register"
 
 export const QuickFitS = () => {
 	return (
-		<div className=" bg-slate-200 rounded-lg">
+		<div className=" bg-slate-200 rounded">
 			<div >
 				<Routes>
 					<Route path="/login" element={<Login />} />

@@ -68,11 +68,9 @@ export const EditWorkout = () => {
         setShowConfirmation(false)
         updateWorkout(id, currentWorkout)
             .then((response) => {
-                console.log("Workout saved successfully");
                 navigate("/workouts");
             })
             .catch((error) => {
-                console.error("Failed to save workout", error);
             });
     };
 
@@ -90,7 +88,7 @@ export const EditWorkout = () => {
     return (
         <>
             <div className="m-5 text-xl font-bold">Edit Workout</div>
-            <fieldset className="bg-gray-400 p-6 rounded-lg">
+            <fieldset className="bg-gray-400 p-6 rounded">
                 <div>
                     <label htmlFor="name">Name:</label>
                     <input
@@ -156,7 +154,7 @@ export const EditWorkout = () => {
                 </fieldset>
 
                 <button
-                    className="bg-green-300 rounded-lg p-2 shadow-md mt-4"
+                    className="bg-green-600 hover:bg-green-700 rounded p-2 text-white shadow-md mt-4"
                     onClick={handleSaveWorkout}
                 >
                     Save Workout
@@ -194,7 +192,7 @@ export const EditWorkout = () => {
                             <img
                                 src={selectedExercise.gif}
                                 alt={selectedExercise.name}
-                                className="my-4 h-40 max-w-full rounded-lg"
+                                className="my-4 h-40 max-w-full rounded"
                             />
                             <button
                                 className="bg-gray-200 rounded-md px-4 py-2 mt-4"

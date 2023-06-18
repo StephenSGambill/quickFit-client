@@ -63,7 +63,6 @@ export const ExercisesPage = () => {
 
     const deleteThisExercise = exerciseId => {
         deleteExercise(exerciseId);
-        console.log("Deleting exercise:", exerciseId);
 
         setExercises(prevExercises =>
             prevExercises.filter(exercise => exercise.id !== exerciseToDelete.id)
@@ -82,7 +81,6 @@ export const ExercisesPage = () => {
     };
 
     const openEditExercisePopup = exercise => {
-        console.log(exercise)
         setExerciseToEdit(exercise);
         setShowEditExercisePopup(true);
     };
@@ -131,67 +129,66 @@ export const ExercisesPage = () => {
     return (
         <div>
             <div className="m-5 text-xl font-bold">Exercises Page</div>
+            <button
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mt-2 mr-2"
+                onClick={openAddExercisePopup}
+            >
+                Add Exercise
+            </button>
 
-            <div className="flex justify-center items-center mx-5">
-                <div className="flex justify-between items-center mx-5">
-                    <div>
-                        <label className="font-bold">Workout Group:</label>
-                        <select
-                            value={selectedGroup}
-                            onChange={e => {
-                                setSelectedGroup(e.target.value);
-                                handleGroupFilter(e.target.value);
-                            }}
-                            className="border border-gray-300 px-2 py-1 rounded"
-                        >
-                            <option value="0">All</option>
-                            {groups.map(group => (
-                                <option key={group.id} value={group.id}>
-                                    {group.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
+            <select
+                value={selectedGroup}
+                onChange={e => {
+                    setSelectedGroup(e.target.value);
+                    handleGroupFilter(e.target.value);
+                }}
+                className="border border-gray-300 px-2 py-1 rounded"
+            >
+                <option value="0">All</option>
+                {groups.map(group => (
+                    <option key={group.id} value={group.id}>
+                        {group.name}
+                    </option>
+                ))}
+            </select>
+            <label className="font-bold ml-2">Sort by Workout Group:</label>
 
-                <div>
-                    <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
-                        onClick={openAddExercisePopup}
-                    >
-                        Add Exercise
-                    </button>
-                </div>
+
+            <div>
+
             </div>
 
-            {exercises.map(exercise => {
-                return (
-                    <div className="m-2 w-1/2 shadow-md p-4 rounded-lg bg-slate-300 mx-auto" key={exercise.id}>
-                        <div className="font-bold text-lg">{exercise.name}</div>
-                        <div>Description: {exercise.description}</div>
-                        <div className="font-bold">{exercise.workout_group?.name}</div>
-                        <img className="h-56 rounded-xl mt-10" src={exercise.gif} alt="Exercise Demonstration" />
-                        <div className="flex justify-end">
+            <div className="exercise-card flex flex-wrap gap-4">
+                {exercises.map((exercise) => {
+                    return (
+                        <div className="h-96 w-96 m-2 shadow-md p-4 rounded bg-slate-400" key={exercise.id}>
                             <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mr-2"
-                                onClick={() => openDeletePopup(exercise)}
-                            >
-                                Delete
-                            </button>
-                            <button
-                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-2 rounded mr-2"
                                 onClick={() => openEditExercisePopup(exercise)}
                             >
                                 Edit
                             </button>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mt-2"
+                                onClick={() => openDeletePopup(exercise)}
+                            >
+                                Delete
+                            </button>
+                            <div className="font-bold text-lg truncate">{exercise.name}</div>
+                            <div className="h-20 overflow-auto">{`Description: ${exercise.description}`}</div>
+                            <div className="font-bold truncate mt-4">{exercise.workout_group?.name}</div>
+                            <img className="h-36 rounded" src={exercise.gif} alt="Exercise Demonstration" />
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
+            </div>
+
+
+
 
             {showAddExercisePopup && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-white p-4 round">
                         <h3 className="text-lg font-bold mb-2">Add New Exercise</h3>
                         <div className="flex flex-col space-y-4">
                             <div>
@@ -239,7 +236,7 @@ export const ExercisesPage = () => {
                                 <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" onClick={closeAddExercisePopup}>
                                     Cancel
                                 </button>
-                                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ml-2" onClick={addExercise}>
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded ml-2" onClick={addExercise}>
                                     Confirm
                                 </button>
                             </div>
@@ -250,7 +247,7 @@ export const ExercisesPage = () => {
 
             {showEditExercisePopup && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-white p-4 round">
                         <h3 className="text-lg font-bold mb-2">Edit Exercise</h3>
                         <div className="flex flex-col space-y-4">
                             <div>
@@ -298,7 +295,7 @@ export const ExercisesPage = () => {
                                 <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" onClick={closeEditExercisePopup}>
                                     Cancel
                                 </button>
-                                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ml-2" onClick={() => updateEditedExercise(exerciseToEdit.id)}>
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded ml-2" onClick={() => updateEditedExercise(exerciseToEdit.id)}>
                                     Confirm
                                 </button>
                             </div>
@@ -309,7 +306,7 @@ export const ExercisesPage = () => {
 
             {showDeletePopup && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-white p-4 round">
                         <h3 className="text-lg font-bold mb-2">Delete Exercise</h3>
                         <p>Are you sure you want to delete this exercise?</p>
                         <div className="flex justify-end">
@@ -317,7 +314,7 @@ export const ExercisesPage = () => {
                                 Cancel
                             </button>
                             <button
-                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded ml-2"
+                                className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ml-2"
                                 onClick={() => deleteThisExercise(exerciseToDelete.id)}
                             >
                                 Delete

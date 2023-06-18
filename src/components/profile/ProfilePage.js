@@ -68,8 +68,8 @@ export const ProfilePage = () => {
 
             <div className="flex justify-center">
                 <div className="w-3/4 text-center">
-                    <div className="mt-10 text-left shadow-md border-gray-400 bg-gray-300 p-4 rounded-lg divide-gray-900 flex justify-center items-center space-x-5">
-                        <img className="h-24 rounded-lg shadow-xl" src={currentMember.pic} alt="user" />
+                    <div className="mt-10 text-left shadow-md border-gray-400 bg-slate-400 p-4 rounded divide-gray-900 flex justify-center items-center space-x-5">
+                        <img className="h-24 rounded shadow-xl" src={currentMember.pic} alt="user" />
                         <div>
                             <h2 className="font-bold">Welcome {currentMember?.user?.first_name} {currentMember?.user?.last_name}!</h2>
                             <div className="italic bold">User Name: {currentMember.user?.username}</div>
@@ -77,7 +77,7 @@ export const ProfilePage = () => {
                             <div className="italic bold">Email: {currentMember.user?.email}</div>
 
                             <button
-                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2 shadow-lg"
+                                className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded mt-2 shadow-lg"
                                 onClick={openEditDialog}
                             >
                                 Edit Info
@@ -86,12 +86,12 @@ export const ProfilePage = () => {
                     </div>
 
                     <div className="mt-10 font-extrabold">Workout History</div>
-                    <div className="max-h-80 overflow-y-auto">
+                    <div className="max-h-80 overflow-y-auto rounded">
                         {completedWorkouts.map(completedWorkout => {
                             const workoutGroup = workoutGroups.find((group) => group.id === completedWorkout?.workout.workout_group);
 
                             return (
-                                <div id="completed-workouts" key={completedWorkout.id} className="m-2 shadow-md p-2 rounded-lg bg-slate-300">
+                                <div id="completed-workouts" key={completedWorkout.id} className="m-2 shadow-md p-2 rounded bg-slate-300">
                                     <div className="font-bold">{completedWorkout?.workout?.name}</div>
                                     <div>Group: {workoutGroup?.name}</div>
                                     <div>Date Completed: {completedWorkout?.date}</div>
@@ -104,7 +104,7 @@ export const ProfilePage = () => {
 
             {showEditDialog && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-white p-4 round">
                         <h3 className="text-lg font-bold mb-2">Edit Member Details</h3>
                         <div className="flex flex-col space-y-4">
                             <div>
@@ -147,7 +147,7 @@ export const ProfilePage = () => {
                                     Cancel
                                 </button>
                                 <button
-                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 ml-2 rounded"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 ml-2 rounded"
                                     onClick={saveMemberDetails}
                                 >
                                     Save

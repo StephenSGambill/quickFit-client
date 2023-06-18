@@ -53,22 +53,40 @@ export const WorkoutsPage = () => {
 
             <div>
                 <button
-                    className="bg-green-600 rounded-lg p-2 text-white shadow-md"
+                    className="bg-green-600  hover:bg-green-700 rounded p-2 text-white shadow-md"
                     onClick={() => navigate("/workout/create")}
                 >
                     Create New Workout
                 </button>
             </div>
 
-            <div>
+            <div className="workout-card flex flex-wrap gap-4 ">
                 {workouts.map((workout) => {
                     const workoutGroup = workoutGroups.find((group) => group.id === workout.workout_group);
                     return (
-                        <div className="m-2 shadow-md p-4 rounded-lg bg-slate-400" key={workout.id}>
-                            <div className="font-bold">{workout.name}</div>
-                            <div className="mt-2">Description: {workout.description}</div>
-                            <div className="mt-2">Group: {workoutGroup?.name}</div>
-                            <div className="mt-2">
+                        <div className="m-2 shadow-md p-4 rounded bg-slate-400" key={workout.id}>
+                            <button
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2  rounded"
+                                onClick={() => navigate(`/workout/${workout.id}`)}
+                            >
+                                Do Workout
+                            </button>
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white shadow-md rounded p-2 ml-2"
+                                onClick={() => navigate(`/workout/edit/${workout.id}`)}
+                            >
+                                Edit Workout
+                            </button>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded  ml-2"
+                                onClick={() => handleDeleteWorkout(workout.id)}
+                            >
+                                Delete Workout
+                            </button>
+                            <div className="font-bold mt-2">{workout.name}</div>
+                            <div>Description: {workout.description}</div>
+                            <div>Group: {workoutGroup?.name}</div>
+                            <div>
                                 Exercises:
                                 <ul className="list-disc list-inside">
                                     {workout.exercises.map((exercise) => (
@@ -79,28 +97,10 @@ export const WorkoutsPage = () => {
                             <div className="mt-2">
                                 Creator: {workout.member.user.first_name} {workout.member.user.last_name}
                             </div>
-                            <button
-                                className="bg-green-300 shadow-md rounded-md p-2 mt-2"
-                                onClick={() => navigate(`/workout/${workout.id}`)}
-                            >
-                                Do Workout
-                            </button>
-                            <button
-                                className="bg-blue-300 shadow-md rounded-md p-2 ml-2 mt-2"
-                                onClick={() => navigate(`/workout/edit/${workout.id}`)}
-                            >
-                                Edit Workout
-                            </button>
-                            <button
-                                className="bg-red-200 shadow-md rounded-md p-2 ml-2 mt-2"
-                                onClick={() => handleDeleteWorkout(workout.id)}
-                            >
-                                Delete Workout
-                            </button>
+
                         </div>
                     );
-                })}
-            </div>
+                })}            </div>
 
             {showConfirmation && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

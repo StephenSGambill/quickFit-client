@@ -91,7 +91,7 @@ export const CreateWorkout = () => {
     return (
         <>
             <div className="m-5 text-2xl font-bold">Create Workout</div>
-            <fieldset className="bg-gray-400 p-6 rounded-lg">
+            <fieldset className="bg-gray-400 p-6 rounded">
                 <div className="mb-4">
                     <label htmlFor="name" className="text-black">Name:</label>
                     <input
@@ -160,25 +160,25 @@ export const CreateWorkout = () => {
                 </fieldset>
 
                 <button
-                    className="bg-green-300 rounded-lg p-2 shadow-md"
+                    className="bg-green-600 hover:bg-green-700 text-white rounded p-2 shadow-md"
                     onClick={handleSaveWorkout}
                 >
                     Save Workout
                 </button>
                 {showConfirmation && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-2 rounded-md">
+                        <div className="bg-white p-2 rounded">
                             <h2 className="text-xl font-bold mb-2">Confirm Save</h2>
                             <p>Are you sure you want to save the workout?</p>
                             <div className="flex justify-end mt-4">
                                 <button
-                                    className="bg-red-200 shadow-md rounded-md px-4 py-2 mr-2"
+                                    className="bg-red-200 shadow-md rounded px-4 py-2 mr-2"
                                     onClick={confirmDelete}
                                 >
                                     Save
                                 </button>
                                 <button
-                                    className="bg-gray-200 rounded-md px-4 py-2"
+                                    className="bg-gray-200 rounded px-4 py-2"
                                     onClick={cancelDelete}
                                 >
                                     Cancel
@@ -189,12 +189,17 @@ export const CreateWorkout = () => {
                 )}
                 {selectedExercise && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-4 rounded-md w-1/2">
+                        <div className="bg-white p-4 rounded w-1/2">
                             <h2 className="text-xl font-bold mb-2">Exercise Details</h2>
                             <p className="font-bold">{selectedExercise.name}</p>
                             <p className="">{selectedExercise.description}</p>
+                            <img
+                                src={selectedExercise.gif}
+                                alt={selectedExercise.name}
+                                className="my-4 h-40 max-w-full round"
+                            />
                             <button
-                                className="bg-gray-200 rounded-md px-4 py-2 mt-4"
+                                className="bg-gray-200 rounded px-4 py-2 mt-4"
                                 onClick={() => setSelectedExercise(null)}
                             >
                                 Close

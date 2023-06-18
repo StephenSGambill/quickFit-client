@@ -6,7 +6,7 @@ export const NavBar = () => {
 
     return (
 
-        <ul className="navbar bg-gray-600 p-5 h-20 text-gray-50 shadow-md fixed top-0 left-0 right-0">
+        <ul className="navbar bg-gray-600 p-5 h-16 text-gray-50 shadow-md rounded-b-lg bg-gray-200 fixed top-0 left-0 right-0">
             <li className="navbar__item active">
                 <Link
                     className="navbar__link transition-all duration-200 transform hover:font-extrabold hover:translate-x-2"
