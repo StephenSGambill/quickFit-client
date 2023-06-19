@@ -90,9 +90,9 @@ export const CreateWorkout = () => {
 
     return (
         <>
-            <div className="m-5 text-2xl font-bold">Create Workout</div>
-            <fieldset className="bg-gray-400 p-6 rounded">
-                <div className="mb-4">
+            <div className="m-5 text-xl font-bold">Create Workout</div>
+            <fieldset className="bg-gray-400 p-6 rounded-2xl">
+                <div>
                     <label htmlFor="name" className="text-black">Name:</label>
                     <input
                         type="text"
@@ -104,7 +104,7 @@ export const CreateWorkout = () => {
                         className="w-full bg-gray-200 p-2 rounded-md"
                     />
                 </div>
-                <fieldset className="mb-4">
+                <fieldset>
                     <div>
                         <label htmlFor="description" className="text-black">Description:</label>
                         <input
@@ -117,8 +117,8 @@ export const CreateWorkout = () => {
                         />
                     </div>
                 </fieldset>
-                <fieldset className="mb-4">
-                    <div className="">
+                <fieldset>
+                    <div>
                         <label htmlFor="workout_group" className="text-black">Workout Group: </label>
                         <select
                             name="workout_group"
@@ -135,7 +135,7 @@ export const CreateWorkout = () => {
                         </select>
                     </div>
                 </fieldset>
-                <fieldset className="mb-4">
+                <fieldset>
                     <div className="">
                         <label className="text-black">Exercises: (click to see description)</label>
                         {exercises.map((exercise) => (
@@ -150,9 +150,9 @@ export const CreateWorkout = () => {
                                 />
                                 <button
                                     onClick={() => handleExerciseClick(exercise.id)}
-                                    className="text-black transition-transform hover:scale-110 focus:outline-none font-bold"
+                                    className="text-black transition-transform hover:scale-110 focus:outline-none "
                                 >
-                                    {exercise.name}
+                                    {exercise.name} - {exercise.workout_group.name}
                                 </button>
                             </div>
                         ))}
@@ -160,25 +160,25 @@ export const CreateWorkout = () => {
                 </fieldset>
 
                 <button
-                    className="bg-green-600 hover:bg-green-700 text-white rounded p-2 shadow-md"
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-2xl p-2 shadow-md"
                     onClick={handleSaveWorkout}
                 >
                     Save Workout
                 </button>
                 {showConfirmation && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-2 rounded">
+                        <div className="bg-white p-2 rounded-2xl">
                             <h2 className="text-xl font-bold mb-2">Confirm Save</h2>
                             <p>Are you sure you want to save the workout?</p>
                             <div className="flex justify-end mt-4">
                                 <button
-                                    className="bg-red-200 shadow-md rounded px-4 py-2 mr-2"
+                                    className="bg-red-200 shadow-md rounded-2xl px-4 py-2 mr-2"
                                     onClick={confirmDelete}
                                 >
                                     Save
                                 </button>
                                 <button
-                                    className="bg-gray-200 rounded px-4 py-2"
+                                    className="bg-gray-200 rounded-2xl px-4 py-2"
                                     onClick={cancelDelete}
                                 >
                                     Cancel

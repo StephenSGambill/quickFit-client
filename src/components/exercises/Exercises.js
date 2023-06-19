@@ -130,7 +130,7 @@ export const ExercisesPage = () => {
         <div>
             <div className="m-5 text-xl font-bold">Exercises Page</div>
             <button
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mt-2 mr-2"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl mt-2 mr-2"
                 onClick={openAddExercisePopup}
             >
                 Add Exercise
@@ -142,7 +142,7 @@ export const ExercisesPage = () => {
                     setSelectedGroup(e.target.value);
                     handleGroupFilter(e.target.value);
                 }}
-                className="border border-gray-300 px-2 py-1 rounded"
+                className="border border-gray-300 px-2 py-1 rounded-md"
             >
                 <option value="0">All</option>
                 {groups.map(group => (
@@ -161,15 +161,15 @@ export const ExercisesPage = () => {
             <div className="exercise-card flex flex-wrap gap-4">
                 {exercises.map((exercise) => {
                     return (
-                        <div className="h-96 w-96 m-2 shadow-md p-4 rounded bg-slate-400" key={exercise.id}>
+                        <div className="h-96 w-96 m-2 shadow-md p-4 rounded-2xl bg-slate-400" key={exercise.id}>
                             <button
-                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-2 rounded mr-2"
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-2 rounded-2xl mr-2"
                                 onClick={() => openEditExercisePopup(exercise)}
                             >
                                 Edit
                             </button>
                             <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mt-2"
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl mt-2"
                                 onClick={() => openDeletePopup(exercise)}
                             >
                                 Delete
@@ -177,7 +177,7 @@ export const ExercisesPage = () => {
                             <div className="font-bold text-lg truncate">{exercise.name}</div>
                             <div className="h-20 overflow-auto">{`Description: ${exercise.description}`}</div>
                             <div className="font-bold truncate mt-4">{exercise.workout_group?.name}</div>
-                            <img className="h-36 rounded" src={exercise.gif} alt="Exercise Demonstration" />
+                            <img className="h-36 rounded-2xl" src={exercise.gif} alt="Exercise Demonstration" />
                         </div>
                     );
                 })}
@@ -188,11 +188,11 @@ export const ExercisesPage = () => {
 
             {showAddExercisePopup && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 round">
+                    <div className="bg-white p-4 round rounded-2xl">
                         <h3 className="text-lg font-bold mb-2">Add New Exercise</h3>
                         <div className="flex flex-col space-y-4">
                             <div>
-                                <label className="font-bold">Name:</label>
+                                <label className="font-bold">Name: </label>
                                 <input
                                     type="text"
                                     value={newExercise.name}
@@ -201,7 +201,7 @@ export const ExercisesPage = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-bold">Description:</label>
+                                <label className="font-bold">Description: </label>
                                 <textarea
                                     value={newExercise.description}
                                     onChange={e => setNewExercise({ ...newExercise, description: e.target.value })}
@@ -209,7 +209,7 @@ export const ExercisesPage = () => {
                                 ></textarea>
                             </div>
                             <div>
-                                <label className="font-bold">Group:</label>
+                                <label className="font-bold">Group: </label>
                                 <select
                                     value={newExercise.workout_group}
                                     onChange={e => setNewExercise({ ...newExercise, workout_group: e.target.value })}
@@ -224,7 +224,7 @@ export const ExercisesPage = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="font-bold">Demonstration Link:</label>
+                                <label className="font-bold">Demonstration Link: </label>
                                 <input
                                     type="text"
                                     value={newExercise.gif}
@@ -233,10 +233,10 @@ export const ExercisesPage = () => {
                                 />
                             </div>
                             <div className="flex justify-end">
-                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" onClick={closeAddExercisePopup}>
+                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl" onClick={closeAddExercisePopup}>
                                     Cancel
                                 </button>
-                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded ml-2" onClick={addExercise}>
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl ml-2" onClick={addExercise}>
                                     Confirm
                                 </button>
                             </div>
@@ -247,11 +247,11 @@ export const ExercisesPage = () => {
 
             {showEditExercisePopup && (
                 <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 round">
-                        <h3 className="text-lg font-bold mb-2">Edit Exercise</h3>
-                        <div className="flex flex-col space-y-4">
+                    <div className="bg-white p-4 round rounded-2xl">
+                        <h3 className="text-lg font-bold mb-2 ">Edit Exercise</h3>
+                        <div className="flex flex-col space-y-4 ">
                             <div>
-                                <label className="font-bold">Name:</label>
+                                <label className="font-bold">Name: </label>
                                 <input
                                     type="text"
                                     value={exerciseToEdit.name}
@@ -260,7 +260,7 @@ export const ExercisesPage = () => {
                                 />
                             </div>
                             <div>
-                                <label className="font-bold">Description:</label>
+                                <label className="font-bold">Description: </label>
                                 <textarea
                                     value={exerciseToEdit.description}
                                     onChange={e => setExerciseToEdit({ ...exerciseToEdit, description: e.target.value })}
@@ -268,7 +268,7 @@ export const ExercisesPage = () => {
                                 ></textarea>
                             </div>
                             <div>
-                                <label className="font-bold">Workout Group:</label>
+                                <label className="font-bold">Workout Group: </label>
                                 <select
                                     value={exerciseToEdit.workout_group.id}
                                     onChange={e => setExerciseToEdit({ ...exerciseToEdit, workout_group: e.target.value })}
@@ -283,7 +283,7 @@ export const ExercisesPage = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="font-bold">Demonstration Link:</label>
+                                <label className="font-bold">Demonstration Link: </label>
                                 <input
                                     type="text"
                                     value={exerciseToEdit.gif}
@@ -292,10 +292,10 @@ export const ExercisesPage = () => {
                                 />
                             </div>
                             <div className="flex justify-end">
-                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" onClick={closeEditExercisePopup}>
+                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl" onClick={closeEditExercisePopup}>
                                     Cancel
                                 </button>
-                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded ml-2" onClick={() => updateEditedExercise(exerciseToEdit.id)}>
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl ml-2" onClick={() => updateEditedExercise(exerciseToEdit.id)}>
                                     Confirm
                                 </button>
                             </div>
@@ -305,16 +305,16 @@ export const ExercisesPage = () => {
             )}
 
             {showDeletePopup && (
-                <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
-                    <div className="bg-white p-4 round">
+                <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50 ">
+                    <div className="bg-white p-4 round rounded-2xl">
                         <h3 className="text-lg font-bold mb-2">Delete Exercise</h3>
                         <p>Are you sure you want to delete this exercise?</p>
                         <div className="flex justify-end">
-                            <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" onClick={closeDeletePopup}>
+                            <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl" onClick={closeDeletePopup}>
                                 Cancel
                             </button>
                             <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ml-2"
+                                className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-2xl ml-2"
                                 onClick={() => deleteThisExercise(exerciseToDelete.id)}
                             >
                                 Delete

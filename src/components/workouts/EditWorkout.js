@@ -88,9 +88,9 @@ export const EditWorkout = () => {
     return (
         <>
             <div className="m-5 text-xl font-bold">Edit Workout</div>
-            <fieldset className="bg-gray-400 p-6 rounded">
+            <fieldset className="bg-gray-400 p-6 rounded-2xl">
                 <div>
-                    <label htmlFor="name">Name:</label>
+                    <label htmlFor="name">Name: </label>
                     <input
                         type="text"
                         name="name"
@@ -103,7 +103,7 @@ export const EditWorkout = () => {
                 </div>
                 <fieldset>
                     <div>
-                        <label htmlFor="description">Description:</label>
+                        <label htmlFor="description">Description: </label>
                         <input
                             type="text"
                             name="description"
@@ -116,7 +116,7 @@ export const EditWorkout = () => {
                 </fieldset>
                 <fieldset>
                     <div className="">
-                        <label htmlFor="workout_group">Workout Group: </label>
+                        <label htmlFor="workout_group">Workout Group:  </label>
                         <select
                             name="workout_group"
                             value={currentWorkout.workout_group}
@@ -144,9 +144,9 @@ export const EditWorkout = () => {
                                 />
                                 <button
                                     onClick={() => handleExerciseClick(exercise.id)}
-                                    className="text-black transition-transform hover:scale-110 focus:outline-none font-bold ml-2"
+                                    className="text-black transition-transform hover:scale-110 focus:outline-none ml-2"
                                 >
-                                    {exercise.name}
+                                    {exercise.name} - {exercise.workout_group.name}
                                 </button>
                             </div>
                         ))}
@@ -154,7 +154,7 @@ export const EditWorkout = () => {
                 </fieldset>
 
                 <button
-                    className="bg-green-600 hover:bg-green-700 rounded p-2 text-white shadow-md mt-4"
+                    className="bg-green-600 hover:bg-green-700 rounded-2xl p-2 text-white shadow-md mt-4"
                     onClick={handleSaveWorkout}
                 >
                     Save Workout
@@ -162,18 +162,18 @@ export const EditWorkout = () => {
 
                 {showConfirmation && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-2 rounded-md">
+                        <div className="bg-white p-2 rounded-2xl">
                             <h2 className="text-xl font-bold mb-2">Confirm Save</h2>
                             <p>Are you sure you want to save the workout?</p>
                             <div className="flex justify-end mt-4">
                                 <button
-                                    className="bg-red-200 shadow-md rounded-md px-4 py-2 mr-2"
+                                    className="bg-red-200 shadow-md rounded-2xl px-4 py-2 mr-2"
                                     onClick={confirmSave}
                                 >
                                     Save
                                 </button>
                                 <button
-                                    className="bg-gray-200 rounded-md px-4 py-2"
+                                    className="bg-gray-200 rounded-2xl px-4 py-2"
                                     onClick={cancelSave}
                                 >
                                     Cancel

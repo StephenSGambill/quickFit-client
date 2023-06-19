@@ -34,7 +34,7 @@ export const Login = () => {
     return (
         <main className="container mx-auto">
             <section className="flex flex-col items-center justify-center h-screen">
-                <form className="w-96 p-8 bg-white rounded shadow-lg" onSubmit={handleLogin}>
+                <form className="w-96 p-8 bg-white rounded-2xl shadow-lg" onSubmit={handleLogin}>
                     <h1 className="text-4xl font-bold mb-4">QuickFitS</h1>
                     <h2 className="text-lg font-semibold mb-4">Please sign in</h2>
                     <fieldset className="mb-4">
@@ -63,7 +63,7 @@ export const Login = () => {
                     <fieldset>
                         <button
                             type="submit"
-                            className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+                            className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
                         >
                             Sign in
                         </button>

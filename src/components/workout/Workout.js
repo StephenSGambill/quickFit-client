@@ -217,7 +217,7 @@ export const WorkoutPage = () => {
                     <option value={soothing}>Soothing</option>
                 </select>
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 ml-2"
                     onClick={togglePlay}
                 >
                     {isPlaying ? "Pause" : "Play"}
@@ -227,7 +227,7 @@ export const WorkoutPage = () => {
 
             <div className="flex">
                 <div className="w-1/2">
-                    <div className=" mt-2 bg-slate-600 p-10 rounded shadow-xl shadow-black">
+                    <div className=" mt-2 bg-slate-600 p-10 rounded-2xl shadow-xl shadow-black">
                         <div onClick={handleTimerClick}>
                             <div
                                 className={`text-center mt-55 rounded ${breakOn ? "bg-green-600" : "bg-red-500"
@@ -303,10 +303,10 @@ export const WorkoutPage = () => {
                         </div>
 
                         <div className="flex items-center justify-between mt-4">
-                            <button className="bg-green-600 hover:bg-green-700 p-2 rounded text-white" onClick={handleResetButtonClick}>
+                            <button className="bg-green-600 hover:bg-green-700 p-2 rounded-2xl text-white" onClick={handleResetButtonClick}>
                                 Reset
                             </button>
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={handleTimerClick}>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-2xl" onClick={handleTimerClick}>
                                 {timeOn ? "Pause" : "Start"}
                             </button>
                         </div>
@@ -318,7 +318,7 @@ export const WorkoutPage = () => {
                 <div className="w-1/2">
 
                     <div className="card max-h-80 ">
-                        <div className="bg-slate-400 p-2 m-2 shadow-xl rounded" key={exercises[currentCard]?.id}>
+                        <div className="bg-slate-400 p-2 m-2 shadow-xl rounded-2xl" key={exercises[currentCard]?.id}>
                             <div className="font-bold text-lg">{exercises[currentCard]?.name}</div>
                             <div>Description: {exercises[currentCard]?.description}</div>
                             <div className="flex justify-center">
@@ -335,7 +335,7 @@ export const WorkoutPage = () => {
 
             </div>
             <div className="text-center">
-                <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded shadow-lg mt-8 " onClick={() => setShowConfirmation(true)}>
+                <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded-2xl shadow-lg mt-8 " onClick={() => setShowConfirmation(true)}>
                     Mark as Complete
                 </button>
 

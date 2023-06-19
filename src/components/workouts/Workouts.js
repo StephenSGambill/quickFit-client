@@ -4,7 +4,6 @@ import { getWorkoutGroups, getWorkouts, deleteWorkout } from "../managers/Workou
 
 export const WorkoutsPage = () => {
     const [workouts, setWorkouts] = useState([]);
-    const [memberCustomWorkouts, setMemberCustomWorkouts] = useState([]);
     const [workoutGroups, setWorkoutGroups] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
@@ -53,7 +52,7 @@ export const WorkoutsPage = () => {
 
             <div>
                 <button
-                    className="bg-green-600  hover:bg-green-700 rounded p-2 text-white shadow-md"
+                    className="bg-green-600  hover:bg-green-700 rounded-2xl p-2 text-white shadow-md"
                     onClick={() => navigate("/workout/create")}
                 >
                     Create New Workout
@@ -64,21 +63,21 @@ export const WorkoutsPage = () => {
                 {workouts.map((workout) => {
                     const workoutGroup = workoutGroups.find((group) => group.id === workout.workout_group);
                     return (
-                        <div className="m-2 shadow-md p-4 rounded bg-slate-400" key={workout.id}>
+                        <div className="m-2 shadow-md p-4 rounded-2xl bg-slate-400" key={workout.id}>
                             <button
-                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2  rounded"
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl"
                                 onClick={() => navigate(`/workout/${workout.id}`)}
                             >
                                 Do Workout
                             </button>
                             <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white shadow-md rounded p-2 ml-2"
+                                className="bg-blue-500 hover:bg-blue-700 text-white shadow-md rounded-2xl p-2 ml-2"
                                 onClick={() => navigate(`/workout/edit/${workout.id}`)}
                             >
                                 Edit Workout
                             </button>
                             <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded  ml-2"
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl  ml-2"
                                 onClick={() => handleDeleteWorkout(workout.id)}
                             >
                                 Delete Workout
@@ -90,7 +89,9 @@ export const WorkoutsPage = () => {
                                 Exercises:
                                 <ul className="list-disc list-inside">
                                     {workout.exercises.map((exercise) => (
-                                        <li key={exercise.id}>{exercise.name}</li>
+                                        <li key={exercise.id}>
+                                            {exercise.name} - {workoutGroups.find((workoutGroup) => workout.workout_group == workoutGroup.id)?.name}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
@@ -104,18 +105,18 @@ export const WorkoutsPage = () => {
 
             {showConfirmation && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-4 rounded-md">
+                    <div className="bg-white p-4 rounded-2xl">
                         <h2 className="text-xl font-bold mb-2">Confirm Deletion</h2>
                         <p>Are you sure you want to delete this workout?</p>
                         <div className="flex justify-end mt-4">
                             <button
-                                className="bg-red-200 shadow-md rounded-md px-4 py-2 mr-2"
+                                className="bg-red-200 shadow-md rounded-2xl px-4 py-2 mr-2"
                                 onClick={confirmDelete}
                             >
                                 Delete
                             </button>
                             <button
-                                className="bg-gray-200 rounded-md px-4 py-2"
+                                className="bg-gray-200 rounded-2xl px-4 py-2"
                                 onClick={cancelDelete}
                             >
                                 Cancel

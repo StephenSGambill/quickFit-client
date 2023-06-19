@@ -41,7 +41,7 @@ export const Register = (props) => {
 
     return (
         <div className="flex items-center justify-center h-screen">
-            <form className="w-96 p-8 bg-white rounded shadow-lg" onSubmit={handleRegister}>
+            <form className="w-96 p-8 bg-white rounded-2xl shadow-lg" onSubmit={handleRegister}>
                 <h1 className="text-4xl font-bold mb-4">Please Register for QuickFitS</h1>
                 <fieldset className="mb-4">
                     <label htmlFor="username" className="block mb-2 font-semibold">
@@ -112,7 +112,7 @@ export const Register = (props) => {
                 <fieldset>
                     <button
                         type="submit"
-                        className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+                        className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
                     >
                         Register
                     </button>

@@ -12,9 +12,12 @@ import 'tailwindcss/tailwind.css'
 
 export const ApplicationViews = () => {
 	return <>
-		<div className=" m-6 mt-16 pt-4 pb-20">
-			<img className="rounded " src={process.env.PUBLIC_URL + "/img/QFSfull.jpg"} />
-			<div className=" text-2xl " >Get 'Er Done</div>
+		<div className=" m-6 mt-14 pt-4 pb-20">
+			<div className="flex flex-col justify-center items-center">
+				<img className="rounded-2xl" src={process.env.PUBLIC_URL + "/img/QFSfull.jpg"} />
+				<div className="text-2xl justify-right
+				">Get 'Er Done</div>
+			</div>
 			<Routes>
 				<Route path="about/" element={<AboutPage />} />
 				<Route path="profile/" element={<ProfilePage />} />
