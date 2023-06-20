@@ -189,17 +189,17 @@ export const CreateWorkout = () => {
                 )}
                 {selectedExercise && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-4 rounded w-1/2">
+                        <div className="bg-white p-4 rounded-2xl w-1/2">
                             <h2 className="text-xl font-bold mb-2">Exercise Details</h2>
                             <p className="font-bold">{selectedExercise.name}</p>
                             <p className="">{selectedExercise.description}</p>
                             <img
                                 src={selectedExercise.gif}
                                 alt={selectedExercise.name}
-                                className="my-4 h-40 max-w-full round"
+                                className="my-4 h-40 max-w-full rounded-2xl"
                             />
                             <button
-                                className="bg-gray-200 rounded px-4 py-2 mt-4"
+                                className="bg-gray-200 rounded-2xl px-4 py-2 mt-4"
                                 onClick={() => setSelectedExercise(null)}
                             >
                                 Close
