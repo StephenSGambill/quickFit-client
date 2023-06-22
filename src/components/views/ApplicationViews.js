@@ -4,7 +4,7 @@ import { ProfilePage } from "../profile/ProfilePage"
 import { WorkoutsPage } from "../workouts/Workouts"
 import { ExercisesPage } from "../exercises/Exercises"
 import { MembersPage } from "../members/MembersPage"
-import { WorkoutPage } from "../workout/Workout"
+import { WorkoutPage } from "../workouts/Workout"
 import { CreateWorkout } from "../workouts/CreateWorkout"
 import { EditWorkout } from "../workouts/EditWorkout"
 import 'tailwindcss/tailwind.css'

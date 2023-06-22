@@ -189,7 +189,7 @@ export const CreateWorkout = () => {
                             name="workout_group"
                             value={currentWorkout.workout_group}
                             onChange={handleInputChange}
-                            className="w-full bg-gray-200 p-2 rounded-md"
+                            className=" bg-gray-200 p-2 rounded-md"
                         >
                             <option value="0">Select type...</option>
                             {workoutGroups.map((workoutGroup) => (

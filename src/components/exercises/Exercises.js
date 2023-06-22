@@ -44,7 +44,10 @@ export const ExercisesPage = () => {
         Promise.all([getExercises(), getWorkoutGroups()])
             .then(([exercisesRes, groupsRes]) => {
                 setExercises(exercisesRes);
-                setGroups(groupsRes);
+                const sortedGroups = groupsRes.sort((a, b) =>
+                    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : a.name.toLowerCase() > b.name.toLowerCase() ? 1 : 0
+                );
+                setGroups(sortedGroups);
             })
             .catch(error => {
                 console.error(error);
@@ -153,17 +156,12 @@ export const ExercisesPage = () => {
             </select>
             <label className="font-bold ml-2">Sort by Workout Group:</label>
 
-
-            <div>
-
-            </div>
-
             <div className="exercise-card flex flex-wrap gap-4">
                 {exercises.map((exercise) => {
                     return (
                         <div className="h-96 w-96 m-2 shadow-md p-4 rounded-2xl bg-slate-400" key={exercise.id}>
                             <button
-                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-2 rounded-2xl mr-2"
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-1 rounded-2xl mr-2"
                                 onClick={() => openEditExercisePopup(exercise)}
                             >
                                 Edit
@@ -174,7 +172,7 @@ export const ExercisesPage = () => {
                             >
                                 Delete
                             </button>
-                            <div className="font-bold text-lg truncate">{exercise.name}</div>
+                            <div className="font-bold text-lg mt-2 truncate">{exercise.name}</div>
                             <div className="h-20 overflow-auto">{`Description: ${exercise.description}`}</div>
                             <div className="font-bold truncate mt-4">{exercise.workout_group?.name}</div>
                             <img className="h-36 rounded-2xl" src={exercise.gif} alt="Exercise Demonstration" />
@@ -209,9 +207,9 @@ export const ExercisesPage = () => {
                                 ></textarea>
                             </div>
                             <div>
-                                <label className="font-bold">Group: </label>
+                                <label className="font-bold">Workout Group: </label>
                                 <select
-                                    value={newExercise.workout_group}
+                                    value={newExercise.workout_group.id}
                                     onChange={e => setNewExercise({ ...newExercise, workout_group: e.target.value })}
                                     className="border border-gray-300 px-2 py-1 rounded"
                                 >
@@ -295,34 +293,39 @@ export const ExercisesPage = () => {
                                 <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl" onClick={closeEditExercisePopup}>
                                     Cancel
                                 </button>
-                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl ml-2" onClick={() => updateEditedExercise(exerciseToEdit.id)}>
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl ml-2" onClick={() => {
+                                    updateEditedExercise(exerciseToEdit.id)
+                                }}>
                                     Confirm
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            )}
+            )
+            }
 
-            {showDeletePopup && (
-                <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50 ">
-                    <div className="bg-white p-4 round rounded-2xl">
-                        <h3 className="text-lg font-bold mb-2">Delete Exercise</h3>
-                        <p>Are you sure you want to delete this exercise?</p>
-                        <div className="flex justify-end">
-                            <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl" onClick={closeDeletePopup}>
-                                Cancel
-                            </button>
-                            <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-2xl ml-2"
-                                onClick={() => deleteThisExercise(exerciseToDelete.id)}
-                            >
-                                Delete
-                            </button>
+            {
+                showDeletePopup && (
+                    <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-500 bg-opacity-50 ">
+                        <div className="bg-white p-4 round rounded-2xl">
+                            <h3 className="text-lg font-bold mb-2">Delete Exercise</h3>
+                            <p>Are you sure you want to delete this exercise?</p>
+                            <div className="flex justify-end">
+                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl" onClick={closeDeletePopup}>
+                                    Cancel
+                                </button>
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-2xl ml-2"
+                                    onClick={() => deleteThisExercise(exerciseToDelete.id)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 };
