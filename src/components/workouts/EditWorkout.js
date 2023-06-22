@@ -47,7 +47,6 @@ export const EditWorkout = () => {
 
     const handleSaveWorkout = () => {
         setShowConfirmation(true);
-        console.log(currentWorkout)
     };
 
     const confirmSave = () => {
