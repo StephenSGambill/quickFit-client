@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { getWorkoutGroups, getWorkoutById, updateWorkout } from "../managers/WorkoutManager";
 import { getExercises } from "../managers/ExcerciseManager";
 import { useParams } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export const EditWorkout = () => {
-
     const [currentWorkout, setCurrentWorkout] = useState({
         name: "",
         description: "",
@@ -13,10 +13,7 @@ export const EditWorkout = () => {
         exercises: [],
     });
     const [workoutGroups, setWorkoutGroups] = useState([]);
-
     const [exercises, setExercises] = useState([]);
-
-
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
     const navigate = useNavigate();
@@ -25,14 +22,15 @@ export const EditWorkout = () => {
     useEffect(() => {
         Promise.all([getWorkoutById(id), getExercises(), getWorkoutGroups()])
             .then(([workoutData, exerciseData, workoutGroupData]) => {
-                const exerciseIds = workoutData.exercises.map(exercise => exercise.id);
+                const exerciseIds = workoutData.exercises.map(
+                    (exercise) => exercise.id
+                );
                 const updatedWorkoutData = { ...workoutData, exercises: exerciseIds };
                 setCurrentWorkout(updatedWorkoutData);
                 setExercises(exerciseData);
                 setWorkoutGroups(workoutGroupData);
             });
     }, []);
-
 
     const handleInputChange = (evt) => {
         const { name, value } = evt.target;
@@ -47,35 +45,18 @@ export const EditWorkout = () => {
         }
     };
 
-    const handleCheckboxChange = (evt) => {
-        const { checked, value } = evt.target;
-        const exerciseId = parseInt(value);
-
-        setCurrentWorkout((prevState) => {
-            const updatedExercises = checked
-                ? [...prevState.exercises, exerciseId]
-                : prevState.exercises.filter((id) => id !== exerciseId);
-
-            return {
-                ...prevState,
-                exercises: updatedExercises,
-            };
-        });
-    };
-
-
     const handleSaveWorkout = () => {
-        setShowConfirmation(true)
+        setShowConfirmation(true);
+        console.log(currentWorkout)
     };
 
     const confirmSave = () => {
-        setShowConfirmation(false)
+        setShowConfirmation(false);
         updateWorkout(id, currentWorkout)
             .then((response) => {
                 navigate("/workouts");
             })
-            .catch((error) => {
-            });
+            .catch((error) => { });
     };
 
     const cancelSave = () => {
@@ -89,12 +70,82 @@ export const EditWorkout = () => {
         setSelectedExercise(selectedExercise);
     };
 
+    const handleDragEnd = (result) => {
+        // Check if there is a valid destination for the dragged item
+        if (!result.destination) return;
+
+        // Destructure the source and destination properties from the result object
+        const { source, destination } = result;
+
+        // Get the ID of the dragged exercise as an integer
+        const draggedExerciseId = parseInt(result.draggableId);
+
+        // Check if the source and destination droppable IDs are the same
+        if (source.droppableId === destination.droppableId) {
+            // Reordering exercises within the same column
+
+            // Update the state by reordering the exercises
+            setCurrentWorkout((prevState) => {
+                const updatedExercises = Array.from(prevState.exercises);
+                const [removed] = updatedExercises.splice(source.index, 1); // Remove the dragged exercise
+                updatedExercises.splice(destination.index, 0, removed); // Insert the exercise at the new position
+
+                return {
+                    ...prevState,
+                    exercises: updatedExercises,
+                };
+            });
+        } else {
+            // Moving exercise between columns
+
+            if (destination.droppableId === "included-exercises") {
+                // Moving exercise from available exercises to included exercises
+
+                // Update the state by moving the exercise
+                setCurrentWorkout((prevState) => {
+                    const updatedExercises = Array.from(prevState.exercises);
+                    const removedExerciseIndex = updatedExercises.indexOf(draggedExerciseId);
+                    if (removedExerciseIndex !== -1) {
+                        updatedExercises.splice(removedExerciseIndex, 1); // Remove the exercise from the array
+                    }
+                    updatedExercises.splice(destination.index, 0, draggedExerciseId); // Insert the exercise at the new position
+
+                    return {
+                        ...prevState,
+                        exercises: updatedExercises,
+                    };
+                });
+            } else if (destination.droppableId === "available-exercises") {
+                // Moving exercise from included exercises to available exercises
+
+                // Update the state by moving the exercise
+                setCurrentWorkout((prevState) => {
+                    const updatedExercises = Array.from(prevState.exercises);
+                    const removedExerciseIndex = updatedExercises.indexOf(draggedExerciseId);
+                    if (removedExerciseIndex !== -1) {
+                        updatedExercises.splice(removedExerciseIndex, 1); // Remove the exercise from the array
+                    }
+
+                    return {
+                        ...prevState,
+                        exercises: updatedExercises,
+                    };
+                });
+            }
+        }
+    };
+
+
+
+
+
+
     return (
         <>
             <div className="m-5 text-xl font-bold">Edit Workout</div>
             <fieldset className="bg-gray-400 p-6 rounded-2xl">
-                <div>
-                    <label htmlFor="name">Name: </label>
+                <div className="mb-4">
+                    <label htmlFor="name" className="text-gray-800">Name: </label>
                     <input
                         type="text"
                         name="name"
@@ -102,60 +153,125 @@ export const EditWorkout = () => {
                         autoFocus
                         value={currentWorkout.name}
                         onChange={handleInputChange}
-                        className="border-2 rounded-md p-2"
+                        className="border-2 rounded-md p-2 focus:outline-none focus:border-blue-500"
                     />
                 </div>
-                <fieldset>
-                    <div>
-                        <label htmlFor="description">Description: </label>
-                        <input
-                            type="text"
-                            name="description"
-                            required
-                            value={currentWorkout.description}
-                            onChange={handleInputChange}
-                            className="border-2 rounded-md p-2"
-                        />
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div className="">
-                        <label htmlFor="workout_group">Workout Group:  </label>
-                        <select
-                            name="workout_group"
-                            value={currentWorkout.workout_group}
-                            onChange={handleInputChange}
-                            className="border-2 rounded-md p-2"
-                        >
-                            <option value="0">Select type...</option>
-                            {workoutGroups.map(workoutGroup => (
-                                <option key={workoutGroup.id} value={workoutGroup.id}>{workoutGroup.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div className="">
-                        <label>Exercises: (click to see description)</label>
-                        {exercises.map((exercise) => (
-                            <div key={exercise.id} className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="exercises"
-                                    value={exercise.id.toString()}
-                                    checked={currentWorkout.exercises.includes(exercise.id)}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <button
-                                    onClick={() => handleExerciseClick(exercise.id)}
-                                    className="text-black transition-transform hover:scale-110 focus:outline-none ml-2"
-                                >
-                                    {exercise.name} - {exercise.workout_group.name}
-                                </button>
-                            </div>
+                <div className="mb-4">
+                    <label htmlFor="description" className="text-gray-800">Description: </label>
+                    <input
+                        type="text"
+                        name="description"
+                        required
+                        value={currentWorkout.description}
+                        onChange={handleInputChange}
+                        className="border-2 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="workout_group" className="text-gray-800">Workout Group: </label>
+                    <select
+                        name="workout_group"
+                        value={currentWorkout.workout_group}
+                        onChange={handleInputChange}
+                        className="border-2 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                    >
+                        <option value="0">Select type...</option>
+                        {workoutGroups.map((workoutGroup) => (
+                            <option
+                                key={workoutGroup.id}
+                                value={workoutGroup.id}
+                            >
+                                {workoutGroup.name}
+                            </option>
                         ))}
-                    </div>
-                </fieldset>
+                    </select>
+                </div>
+
+
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                        <Droppable droppableId="available-exercises">
+                            {(provided) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    className="border border-gray-500 rounded-md p-2 h-64 overflow-y-auto"
+                                >
+                                    <h2 className="font-bold mb-2">Available Exercises</h2>
+                                    {exercises.map((exercise, index) => {
+                                        if (
+                                            !currentWorkout.exercises.includes(exercise.id)
+                                        ) {
+                                            return (
+                                                <Draggable
+                                                    key={exercise.id}
+                                                    draggableId={exercise.id.toString()}
+                                                    index={index}
+                                                >
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className="flex items-center mb-2 bg-white p-2 rounded-md cursor-pointer"
+                                                            onClick={() =>
+                                                                handleExerciseClick(exercise.id)
+                                                            }
+                                                        >
+                                                            <span>{exercise.name}</span>
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            );
+                                        }
+                                        return null;
+                                    })}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+
+                        <Droppable droppableId="included-exercises">
+                            {(provided) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    className="border border-gray-500 rounded-md p-2 h-64 overflow-y-auto"
+                                >
+                                    <h2 className="font-bold mb-2">Included Exercises</h2>
+                                    {currentWorkout.exercises.map((exerciseId, index) => {
+                                        const exercise = exercises.find(
+                                            (exercise) => exercise.id === exerciseId
+                                        );
+
+                                        return (
+                                            <Draggable
+                                                key={exercise.id}
+                                                draggableId={exercise.id.toString()}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        className="flex items-center mb-2 bg-white p-2 rounded-md cursor-pointer"
+                                                        onClick={() =>
+                                                            handleExerciseClick(exercise.id)
+                                                        }
+                                                    >
+                                                        <span>{exercise.name}</span>
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        );
+                                    })}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </div>
 
                 <button
                     className="bg-green-600 hover:bg-green-700 rounded-2xl p-2 text-white shadow-md mt-4"
