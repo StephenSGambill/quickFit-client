@@ -90,7 +90,8 @@ export const WorkoutsPage = () => {
                                 <ul className="list-disc list-inside">
                                     {workout.exercises.map((exercise) => (
                                         <li key={exercise.id}>
-                                            {exercise.name} - {workoutGroups.find((workoutGroup) => workout.workout_group == workoutGroup.id)?.name}
+                                            {exercise.name}
+                                            {/* - {workoutGroups.find((workoutGroup) => workout.workout_group == workoutGroup.id)?.name} */}
                                         </li>
                                     ))}
                                 </ul>

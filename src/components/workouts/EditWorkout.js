@@ -218,7 +218,7 @@ export const EditWorkout = () => {
                                                                 handleExerciseClick(exercise.id)
                                                             }
                                                         >
-                                                            <span>{exercise.name}</span>
+                                                            <span>{exercise.name}  - {workoutGroups.find((workoutGroup) => exercise.workout_group.id === workoutGroup.id)?.name}</span>
                                                         </div>
                                                     )}
                                                 </Draggable>
@@ -260,7 +260,7 @@ export const EditWorkout = () => {
                                                             handleExerciseClick(exercise.id)
                                                         }
                                                     >
-                                                        <span>{exercise.name}</span>
+                                                        <span>{exercise.name}  - {workoutGroups.find((workoutGroup) => exercise.workout_group.id === workoutGroup.id)?.name}</span>
                                                     </div>
                                                 )}
                                             </Draggable>
