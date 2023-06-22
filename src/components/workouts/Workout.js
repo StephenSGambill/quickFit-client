@@ -43,7 +43,7 @@ export const WorkoutPage = () => {
                 const [workoutRef] = await Promise.all([getWorkoutById(id)]);
                 setWorkout(workoutRef);
                 setExercises(workoutRef.exercises);
-                setRounds(workoutRef.exercises?.length * rounds);
+                setRounds(workoutRef.exercises?.length * 3); // Set rounds to the number of exercises
             } catch (error) {
                 // Handle any errors that occur during the Promise execution
                 console.error(error);
@@ -52,6 +52,7 @@ export const WorkoutPage = () => {
 
         fetchWorkout();
     }, []);
+
 
     useEffect(() => {
         setCurrentTime(roundLength)
@@ -198,6 +199,13 @@ export const WorkoutPage = () => {
         setIsPlaying((prevIsPlaying) => !prevIsPlaying);
     };
 
+    const getTotalTime = () => {
+        const totalWorkTime = exercises.length * roundLength * rounds
+        const totalRestTime = (exercises.length - 1) * breakLength * rounds
+        const totalTime = totalWorkTime + totalRestTime
+        return totalTime
+    }
+
 
     return (
         <>
@@ -224,7 +232,9 @@ export const WorkoutPage = () => {
                 </button>
                 <audio ref={audioRef} loop />
             </div>
-
+            <p className="text-blue-700 font-bold mt-2">
+                Total Workout Time: {convertNumToMin(getTotalTime())}
+            </p>
             <div className="flex">
                 <div className="w-1/2">
                     <div className=" mt-2 bg-slate-600 p-10 rounded-2xl shadow-xl shadow-black">
@@ -295,7 +305,7 @@ export const WorkoutPage = () => {
                                 <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaserounds}>
                                     -1
                                 </button>
-                                <h4 className="text-2xl">{rounds}</h4>
+                                <h4 className="text-2xl"> {rounds}</h4>
                                 <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaserounds}>
                                     +1
                                 </button>
@@ -330,12 +340,16 @@ export const WorkoutPage = () => {
                         <h1 className="text-4xl font-bold mt-8 text-orange-600 ">
                             {breakOn ? "Up Next" : "Go!"}
                         </h1>
+
                     </div>
                 </div>
 
             </div>
             <div className="text-center">
-                <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded-2xl shadow-lg mt-8 " onClick={() => setShowConfirmation(true)}>
+                <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded-2xl shadow-lg mt-8 " onClick={() => navigate("/workouts")}>
+                    Return to Workouts
+                </button>
+                <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded-2xl shadow-lg mt-8 ml-2" onClick={() => setShowConfirmation(true)}>
                     Mark as Complete
                 </button>
 

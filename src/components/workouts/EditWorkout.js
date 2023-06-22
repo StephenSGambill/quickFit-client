@@ -152,7 +152,7 @@ export const EditWorkout = () => {
                         autoFocus
                         value={currentWorkout.name}
                         onChange={handleInputChange}
-                        className="border-2 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                        className="border-2 rounded-md w-full p-2 focus:outline-none focus:border-blue-500"
                     />
                 </div>
                 <div className="mb-4">
@@ -163,7 +163,7 @@ export const EditWorkout = () => {
                         required
                         value={currentWorkout.description}
                         onChange={handleInputChange}
-                        className="border-2 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                        className="border-2 rounded-md w-full p-2 focus:outline-none focus:border-blue-500"
                     />
                 </div>
                 <div className="mb-4">
