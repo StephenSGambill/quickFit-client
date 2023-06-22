@@ -67,7 +67,7 @@ export const ProfilePage = () => {
             <div className="m-5 text-xl font-bold">Profile Page</div>
 
             <div className="flex justify-center">
-                <div className="w-3/4 text-center">
+                <div className="w-1/2 text-center">
                     <div className="mt-2 text-left shadow-md border-gray-400 bg-slate-400 p-4 rounded-2xl divide-gray-900 flex justify-center items-center space-x-5">
                         <img className="h-24 rounded-2xl shadow-xl" src={currentMember.pic} alt="user" />
                         <div>

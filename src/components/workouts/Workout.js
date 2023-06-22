@@ -18,9 +18,10 @@ export const WorkoutPage = () => {
 
     const [roundLength, setRoundLength] = useState(45)
     const [breakLength, setBreakLength] = useState(15)
-    const [rounds, setRounds] = useState(4)
+    const [rounds, setRounds] = useState(3)
+    const [cycles, setCycles] = useState(3);
 
-    const [currentRound, setCurrentRound] = useState(rounds)
+    const [currentCycle, setCurrentCycle] = useState(cycles)
     const [currentTime, setCurrentTime] = useState(roundLength)
     const [timeOn, setTimeOn] = useState(false)
     const [timer, setTimer] = useState(null)
@@ -34,7 +35,6 @@ export const WorkoutPage = () => {
     const [selectedAudio, setSelectedAudio] = useState("");
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
 
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export const WorkoutPage = () => {
                 const [workoutRef] = await Promise.all([getWorkoutById(id)]);
                 setWorkout(workoutRef);
                 setExercises(workoutRef.exercises);
-                setRounds(workoutRef.exercises?.length * 3); // Set rounds to the number of exercises
+                //setRounds(workoutRef.exercises?.length * 3); // Set rounds to the number of exercises
             } catch (error) {
                 // Handle any errors that occur during the Promise execution
                 console.error(error);
@@ -65,7 +65,7 @@ export const WorkoutPage = () => {
 
     useEffect(() => {
         checkTime()
-    }, [currentTime, breakOn, currentRound])
+    }, [currentTime, breakOn])
 
     useEffect(() => {
         if (selectedAudio) {
@@ -73,7 +73,7 @@ export const WorkoutPage = () => {
             setIsPlaying(true)
             audioRef.current.play();
         }
-    }, [selectedAudio]);
+    }, [selectedAudio, currentCycle]);
 
     const updateScreen = () => {
         checkTime()
@@ -99,10 +99,10 @@ export const WorkoutPage = () => {
     const handleIncreaseBreakLength = () => {
         setBreakLength((prevValue) => prevValue + 10)
     }
-    const handleDecreaserounds = () => {
+    const handleDecreaseCycles = () => {
         setRounds((prevValue) => Math.max(prevValue - 1, 0))
     }
-    const handleIncreaserounds = () => {
+    const handleIncreaseCycles = () => {
         setRounds((prevValue) => prevValue + 1)
     }
     const handleDecreaseroundLengthBy5 = () => {
@@ -134,7 +134,7 @@ export const WorkoutPage = () => {
 
     const handleResetButtonClick = () => {
         setCurrentTime(roundLength)
-        setCurrentRound(rounds)
+        setCurrentCycle(cycles)
         setTimeOn(false)
         clearInterval(timer)
         setBreakOn(false)
@@ -142,38 +142,46 @@ export const WorkoutPage = () => {
 
     const checkTime = () => {
         if (currentTime < 0 && !breakOn) {
-            setCurrentTime(breakLength)
-            setBreakOn(true)
-            restAudioRef.current.currentTime = 0
-            restAudioRef.current.play()
+            setCurrentTime(breakLength);
+            setBreakOn(true);
+            restAudioRef.current.currentTime = 0;
+            restAudioRef.current.play();
 
-            if (currentCard === exercises.length - 1) {
-                setCurrentCard(0)
-            } else {
-                setCurrentCard((prevValue) => prevValue + 1)
-            }
-        } else if (currentTime < 0 && breakOn) {
-            setCurrentTime(roundLength)
-            setBreakOn(false)
-            setCurrentRound((prevValue) => {
-                if (prevValue > 0) {
-                    return prevValue - 1
+            setCurrentCard((prevValue) => {
+                if (prevValue === exercises.length - 1) {
+                    return 0;
                 }
-                return prevValue
-            })
+                return prevValue + 1;
+            });
+        } else if (currentTime < 0 && breakOn) {
+            setCurrentTime(roundLength);
+            setBreakOn(false);
+            setRounds((prevValue) => {
+                if (prevValue > 0) {
+                    return prevValue - 1;
+                }
+                return prevValue;
+            });
 
-            if (currentRound === 1) {
-                setTimeOn(false)
-                clearInterval(timer)
+            if (rounds === 1) {
+                setTimeOn(false);
+                clearInterval(timer);
             }
-            workAudioRef.current.currentTime = 0
-            workAudioRef.current.play()
+            workAudioRef.current.currentTime = 0;
+            workAudioRef.current.play();
         }
-        if (currentRound === 0) {
-            setTimeOn(false)
-            clearInterval(timer)
+
+        if (rounds === 0) {
+            if (rounds === 1) {
+                setTimeOn(false);
+                clearInterval(timer);
+            } else {
+                setRounds(rounds);
+            }
         }
-    }
+    };
+
+
 
     const handleMarkComplete = () => {
         const completedWorkout = {
@@ -300,13 +308,13 @@ export const WorkoutPage = () => {
                             </div>
 
 
-                            <p className="text-gray-50">Number of Rounds</p>
+                            <p className="text-gray-50">Number of Cycles</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaserounds}>
+                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseCycles}>
                                     -1
                                 </button>
                                 <h4 className="text-2xl"> {rounds}</h4>
-                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaserounds}>
+                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseCycles}>
                                     +1
                                 </button>
                             </div>

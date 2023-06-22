@@ -285,7 +285,12 @@ export const CreateWorkout = () => {
                         </Droppable>
                     </DragDropContext>
                 </div>
-
+                <button
+                    className="bg-red-600 hover:bg-red-700 text-white rounded-2xl p-2 shadow-md mt-4 mr-2"
+                    onClick={() => navigate("/workouts")}
+                >
+                    Cancel
+                </button>
                 <button
                     className="bg-green-600 hover:bg-green-700 text-white rounded-2xl p-2 shadow-md mt-4"
                     onClick={handleSaveWorkout}
