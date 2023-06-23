@@ -17,14 +17,16 @@ export const WorkoutPage = () => {
     const workAudioRef = useRef(null)
     const restAudioRef = useRef(null)
 
-    const [workLength, setWorkLength] = useState(45)
+    const [roundLength, setRoundLength] = useState(45)
     const [breakLength, setBreakLength] = useState(15)
-    const [sets, setSets] = useState(3) //how many times all exercises are repeated
+    const [rounds, setRounds] = useState(3)
+    const [cycles, setCycles] = useState(3);
 
-    const [currentTime, setCurrentTime] = useState(workLength)//time on ticking clock
+    const [currentCycle, setCurrentCycle] = useState(cycles)
+    const [currentTime, setCurrentTime] = useState(roundLength)
     const [timeOn, setTimeOn] = useState(false)
     const [timer, setTimer] = useState(null)
-    const [breakOn, setBreakOn] = useState(true)
+    const [breakOn, setBreakOn] = useState(false)
     const [workout, setWorkout] = useState({})
     const [exercises, setExercises] = useState([])
 
@@ -42,6 +44,7 @@ export const WorkoutPage = () => {
                 const [workoutRef] = await Promise.all([getWorkoutById(id)]);
                 setWorkout(workoutRef);
                 setExercises(workoutRef.exercises);
+                setRounds(workoutRef.exercises?.length); // Set rounds to the number of exercises
             } catch (error) {
                 // Handle any errors that occur during the Promise execution
                 console.error(error);
@@ -53,9 +56,9 @@ export const WorkoutPage = () => {
 
 
     useEffect(() => {
-        setCurrentTime(breakLength)
+        setCurrentTime(roundLength)
 
-    }, [breakLength])
+    }, [roundLength, rounds])
 
     useEffect(() => {
         updateScreen()
@@ -71,30 +74,37 @@ export const WorkoutPage = () => {
             setIsPlaying(true)
             audioRef.current.play();
         }
-    }, [selectedAudio]);
+    }, [selectedAudio, currentCycle]);
 
     const updateScreen = () => {
         checkTime()
     }
 
-    const handleDecreaseWorkLength = () => {
-        setWorkLength((prevValue) => Math.max(prevValue - 10, 0))
-    }
-    const handleIncreaseWorkLength = () => {
-        setWorkLength((prevValue) => prevValue + 10)
-    }
-    const handleDecreaseWorkLengthBy5 = () => {
-        setWorkLength((prevValue) => Math.max(prevValue - 5, 0))
-    }
-    const handleIncreaseWorkLengthBy5 = () => {
-        setWorkLength((prevValue) => prevValue + 5)
-    }
 
+
+    const handleDecreaseroundLength = () => {
+        setRoundLength((prevValue) => Math.max(prevValue - 10, 0))
+    }
+    const handleIncreaseroundLength = () => {
+        setRoundLength((prevValue) => prevValue + 10)
+    }
     const handleDecreaseBreakLength = () => {
         setBreakLength((prevValue) => Math.max(prevValue - 10, 0))
     }
     const handleIncreaseBreakLength = () => {
         setBreakLength((prevValue) => prevValue + 10)
+    }
+    const handleDecreaseRounds = () => {
+        setRounds((prevValue) => Math.max(prevValue - 1, 0))
+    }
+    const handleIncreaseRounds = () => {
+        setRounds((prevValue) => prevValue + 1)
+    }
+    const handleDecreaseroundLengthBy5 = () => {
+        setRoundLength((prevValue) => Math.max(prevValue - 5, 0))
+    }
+    const handleIncreaseroundLengthBy5 = () => {
+        setRoundLength((prevValue) => prevValue + 5)
     }
     const handleDecreaseBreakLengthBy5 = () => {
         setBreakLength((prevValue) => Math.max(prevValue - 5, 0))
@@ -102,12 +112,7 @@ export const WorkoutPage = () => {
     const handleIncreaseBreakLengthBy5 = () => {
         setBreakLength((prevValue) => prevValue + 5)
     }
-    const handleDecreaseSets = () => {
-        setSets((prevValue) => Math.max(prevValue - 1, 0))
-    }
-    const handleIncreaseSets = () => {
-        setSets((prevValue) => prevValue + 1)
-    }
+
 
     const handleTimerClick = () => {
         if (!timeOn) {
@@ -122,6 +127,14 @@ export const WorkoutPage = () => {
         }
     }
 
+    const handleResetButtonClick = () => {
+        setCurrentTime(roundLength)
+        setCurrentCycle(cycles)
+        setTimeOn(false)
+        clearInterval(timer)
+        setBreakOn(false)
+    }
+
     const checkTime = () => {
         if (currentTime < 0 && !breakOn) {
             setCurrentTime(breakLength);
@@ -131,28 +144,39 @@ export const WorkoutPage = () => {
 
             setCurrentCard((prevValue) => {
                 if (prevValue === exercises.length - 1) {
-                    // Check if all exercises have gone through their break/work cycle
-                    if (sets > 1) {
-                        // If sets is greater than 1, decrement it
-                        setSets((prevValue) => prevValue - 1);
-                    } else {
-                        // If sets is 1, stop the timer and set sets to 0
-                        setTimeOn(false);
-                        clearInterval(timer);
-                        setSets(0);
-                    }
                     return 0;
                 }
                 return prevValue + 1;
             });
         } else if (currentTime < 0 && breakOn) {
-            setCurrentTime(workLength);
+            setCurrentTime(roundLength);
             setBreakOn(false);
+            setRounds((prevValue) => {
+                if (prevValue > 0) {
+                    return prevValue - 1;
+                }
+                return prevValue;
+            });
 
+            if (rounds === 1) {
+                setTimeOn(false);
+                clearInterval(timer);
+            }
             workAudioRef.current.currentTime = 0;
             workAudioRef.current.play();
         }
+
+        if (rounds === 0) {
+            if (rounds === 1) {
+                setTimeOn(false);
+                clearInterval(timer);
+            } else {
+                setRounds(rounds);
+            }
+        }
     };
+
+
 
     const handleMarkComplete = () => {
         const completedWorkout = {
@@ -163,6 +187,7 @@ export const WorkoutPage = () => {
         navigate('/profile')
 
     }
+
 
     const handleAudioChange = (event) => {
         setSelectedAudio(event.target.value);
@@ -178,8 +203,8 @@ export const WorkoutPage = () => {
     };
 
     const getTotalTime = () => {
-        const totalWorkTime = exercises.length * workLength * sets;
-        const totalRestTime = (exercises.length) * breakLength * sets;
+        const totalWorkTime = exercises.length * roundLength * rounds;
+        const totalRestTime = (exercises.length - 1) * breakLength * rounds;
         const totalTime = totalWorkTime + totalRestTime;
         return totalTime;
     };
@@ -219,13 +244,13 @@ export const WorkoutPage = () => {
                     <div className=" mt-2 bg-slate-600 p-10 rounded-2xl shadow-xl shadow-black">
                         <div onClick={handleTimerClick}>
                             <div
-                                className={`text-center mt-55 rounded ${breakOn ? "bg-red-500" : "bg-green-600"
+                                className={`text-center mt-55 rounded ${breakOn ? "bg-green-600" : "bg-red-500"
                                     }`}
                             >
                                 <h1 className="text-6xl mb-0 rounded bg-slate-300">
                                     {convertNumToMin(currentTime)}
                                 </h1>
-                                <h3 className="text-gray-50 text-2xl m-0">
+                                <h3 className="text-gray-50 text-lg m-0">
                                     {breakOn ? "Rest!" : "Work!"}
                                 </h3>
                             </div>
@@ -233,23 +258,23 @@ export const WorkoutPage = () => {
                         <div className="settings-card text-center bg-slate-400 p-4 rounded">
                             <p className="text-gray-50 ">Work Length</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className=" bg-slate-300 w-8 rounded" onClick={handleDecreaseWorkLength}>
+                                <button className=" bg-slate-300 w-8 rounded" onClick={handleDecreaseroundLength}>
                                     -10
                                 </button>
                                 <button
                                     className=" bg-slate-300 w-6 rounded"
-                                    onClick={handleDecreaseWorkLengthBy5}
+                                    onClick={handleDecreaseroundLengthBy5}
                                 >
                                     -5
                                 </button>
-                                <h4 className="text-2xl">{convertNumToMin(workLength)}</h4>
+                                <h4 className="text-2xl">{convertNumToMin(roundLength)}</h4>
                                 <button
                                     className=" bg-slate-300 w-6 rounded"
-                                    onClick={handleIncreaseWorkLengthBy5}
+                                    onClick={handleIncreaseroundLengthBy5}
                                 >
                                     +5
                                 </button>
-                                <button className="  bg-slate-300 w-8 rounded" onClick={handleIncreaseWorkLength}>
+                                <button className="  bg-slate-300 w-8 rounded" onClick={handleIncreaseroundLength}>
                                     +10
                                 </button>
                             </div>
@@ -279,19 +304,22 @@ export const WorkoutPage = () => {
                             </div>
 
 
-                            <p className="text-gray-50">Number of Sets</p>
+                            <p className="text-gray-50">Number of Rounds</p>
                             <div className="mt-4 flex items-center justify-between">
-                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseSets}>
+                                <button className="mr-4  bg-slate-300 w-6 rounded" onClick={handleDecreaseRounds}>
                                     -1
                                 </button>
-                                <h4 className="text-2xl"> {sets}</h4>
-                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseSets}>
+                                <h4 className="text-2xl"> {rounds}</h4>
+                                <button className="ml-4  bg-slate-300 w-6 rounded" onClick={handleIncreaseRounds}>
                                     +1
                                 </button>
                             </div>
                         </div>
 
-                        <div className="flex items-center  mt-4">
+                        <div className="flex items-center justify-between mt-4">
+                            <button className="bg-green-600 hover:bg-green-700 p-2 rounded-2xl text-white" onClick={handleResetButtonClick}>
+                                Reset
+                            </button>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-2xl" onClick={handleTimerClick}>
                                 {timeOn ? "Pause" : "Start"}
                             </button>
@@ -313,15 +341,14 @@ export const WorkoutPage = () => {
                         </div>
                     </div>
                     <div className="text-center">
-                        <h1 className={`text-4xl font-bold mt-8 ${breakOn ? "text-red-500 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]" : "text-green-500 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"}`}>
+                        <h1 className="text-4xl font-bold mt-8 text-orange-600 ">
                             {breakOn ? "Up Next" : "Go!"}
                         </h1>
+
                     </div>
                 </div>
 
-
             </div>
-
             <div className="text-center">
                 <button className="bg-blue-500 hover:bg-blue-700 p-2 text-white rounded-2xl shadow-lg mt-8 " onClick={() => navigate("/workouts")}>
                     Return to Workouts
@@ -332,30 +359,28 @@ export const WorkoutPage = () => {
 
             </div>
 
-            {
-                showConfirmation && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-8 rounded-2xl">
-                            <h2 className="text-2xl font-bold mb-4">Confirmation</h2>
-                            <p className="text-gray-700 mb-4">Are you sure you want to mark the workout as complete?</p>
-                            <div className="flex justify-center">
-                                <button
-                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl mr-2"
-                                    onClick={handleMarkComplete}
-                                >
-                                    Confirm
-                                </button>
-                                <button
-                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl"
-                                    onClick={() => setShowConfirmation(false)}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
+            {showConfirmation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-2xl">
+                        <h2 className="text-2xl font-bold mb-4">Confirmation</h2>
+                        <p className="text-gray-700 mb-4">Are you sure you want to mark the workout as complete?</p>
+                        <div className="flex justify-center">
+                            <button
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl mr-2"
+                                onClick={handleMarkComplete}
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl"
+                                onClick={() => setShowConfirmation(false)}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </div>
-                )
-            }
+                </div>
+            )}
         </>
     )
 }
