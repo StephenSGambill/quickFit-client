@@ -26,8 +26,8 @@ export const MembersPage = () => {
                             <img className="h-24 w-24 rounded-full mx-auto mb-4" src={member.pic} alt="user" />
                             <div className="text-lg font-bold text-center mb-2">{member.user.first_name} {member.user.last_name}</div>
                             <div className="text-center text-gray-600 mb-2">@{member.user.username}</div>
-                            <div className="text-center">{member.motivation}</div>
-                            {member.user.is_staff ? <div className="text-center">Staff</div> : <div className="text-center">Non-staff</div>}
+                            <div className="text-center ">{member.motivation}</div>
+                            {member.user.is_staff ? <div className="text-center text-red-400">Staff</div> : <></>}
 
                         </div>
                     ))}

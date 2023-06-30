@@ -68,7 +68,7 @@ export const WorkoutsPage = () => {
                 {workouts.map((workout) => {
                     const workoutGroup = workoutGroups.find((group) => group.id === workout.workout_group);
                     return (
-                        <div className="m-2 shadow-md p-4 rounded-2xl bg-slate-400 w-72 " key={workout.id}>
+                        <div className="m-2 shadow-md p-4 rounded-2xl bg-slate-400 w-96 " key={workout.id}>
                             <button
                                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl"
                                 onClick={() => navigate(`/workout/${workout.id}`)}
