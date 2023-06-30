@@ -72,9 +72,9 @@ export const ProfilePage = () => {
                         <img className="h-24 rounded-2xl shadow-xl" src={currentMember.pic} alt="user" />
                         <div>
                             <h2 className="font-bold">Welcome {currentMember?.user?.first_name} {currentMember?.user?.last_name}!</h2>
-                            <div className="italic bold">User Name: {currentMember.user?.username}</div>
-                            <div className="italic bold">Motivation: {currentMember.motivation}</div>
-                            <div className="italic bold">Email: {currentMember.user?.email}</div>
+                            <div><span className="font-bold">User Name:</span> {currentMember.user?.username}</div>
+                            <div><span className="font-bold">Motivation:</span> {currentMember.motivation}</div>
+                            <div><span className="font-bold">Email:</span> {currentMember.user?.email}</div>
 
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-2xl mt-2 shadow-lg"
