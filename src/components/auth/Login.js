@@ -6,10 +6,10 @@ import "./Login.css"
 
 
 export const Login = () => {
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    const invalidDialog = useRef()
+    const passwordDialog = useRef()
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -19,6 +19,7 @@ export const Login = () => {
             password: password
         }
 
+
         loginUser(user)
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
@@ -26,7 +27,7 @@ export const Login = () => {
                     navigate("/profile")
                 }
                 else {
-                    invalidDialog.current.showModal()
+                    passwordDialog.current.showModal()
                 }
             })
     }
@@ -40,12 +41,13 @@ export const Login = () => {
                     <fieldset className="mb-4">
                         <label htmlFor="inputUsername" className="block mb-2 font-semibold">Username</label>
                         <input
-                            type="username"
+                            type="text"
                             value={username}
                             onChange={(evt) => setUsername(evt.target.value)}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
                             placeholder="Username"
                             required
+                            autoComplete="username"
                             autoFocus
                         />
                     </fieldset>
@@ -57,6 +59,7 @@ export const Login = () => {
                             onChange={(evt) => setPassword(evt.target.value)}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
                             placeholder="Password"
+                            autoComplete="new-password"
                             required
                         />
                     </fieldset>
@@ -73,6 +76,10 @@ export const Login = () => {
                     <Link to="/register" className="text-blue-500 hover:underline">Not a member yet?</Link>
                 </section>
             </section>
+            <dialog ref={passwordDialog} className="flex flex-col border border-gray-400 bg-red-200 rounded-md shadow-lg">
+                <p>Incorrect password. <br /> Please try again.</p>
+                <button className="border border-solid border-gray-500 text-center p-1 rounded-md " onClick={() => passwordDialog.current.close()}>Close</button>
+            </dialog>
         </main>
     );
 }
