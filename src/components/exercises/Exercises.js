@@ -18,6 +18,12 @@ export const ExercisesPage = () => {
     const [exerciseToEdit, setExerciseToEdit] = useState(null);
     const [selectedGroup, setSelectedGroup] = useState(0);
 
+    const qfsUserInfo = localStorage.getItem("qfs_user");
+    const userInfoObj = JSON.parse(qfsUserInfo);
+    const isStaff = userInfoObj.isStaff;
+
+
+
     const [newExercise, setNewExercise] = useState({
         name: "",
         description: "",
@@ -132,12 +138,14 @@ export const ExercisesPage = () => {
     return (
         <div>
             <div className="m-5 text-xl font-bold">Exercises Page</div>
-            <button
+
+            {isStaff ? <button
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl mt-2 mr-2"
                 onClick={openAddExercisePopup}
             >
                 Add Exercise
-            </button>
+            </button> : <></>}
+
 
             <select
                 value={selectedGroup}
@@ -160,18 +168,19 @@ export const ExercisesPage = () => {
                 {exercises.map((exercise) => {
                     return (
                         <div className="h-96 w-96 m-2 shadow-md p-4 rounded-2xl bg-slate-400" key={exercise.id}>
-                            <button
+                            {isStaff ? <> <button
                                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 mt-1 rounded-2xl mr-2"
                                 onClick={() => openEditExercisePopup(exercise)}
                             >
                                 Edit
                             </button>
-                            <button
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl mt-2"
-                                onClick={() => openDeletePopup(exercise)}
-                            >
-                                Delete
-                            </button>
+                                <button
+                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-2xl mt-2"
+                                    onClick={() => openDeletePopup(exercise)}
+                                >
+                                    Delete
+                                </button></> : <></>}
+
                             <div className="font-bold text-lg mt-2 truncate">{exercise.name}</div>
                             <div className="h-20 overflow-auto">{`Description: ${exercise.description}`}</div>
                             <div className="font-bold truncate mt-4">{exercise.workout_group?.name}</div>

@@ -23,7 +23,11 @@ export const Login = () => {
         loginUser(user)
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    localStorage.setItem("qfs_user", res.token)
+                    const resString = JSON.stringify({
+                        token: res.token,
+                        isStaff: res.isStaff,
+                    })
+                    localStorage.setItem("qfs_user", resString)
                     navigate("/profile")
                 }
                 else {
