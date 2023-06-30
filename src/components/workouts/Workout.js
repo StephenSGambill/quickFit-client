@@ -19,9 +19,9 @@ export const WorkoutPage = () => {
 
     const [workLength, setWorkLength] = useState(45)
     const [breakLength, setBreakLength] = useState(15)
-    const [sets, setSets] = useState(3) //how many times all exercises are repeated
+    const [sets, setSets] = useState(3)
 
-    const [currentTime, setCurrentTime] = useState(workLength)//time on ticking clock
+    const [currentTime, setCurrentTime] = useState(workLength)
     const [timeOn, setTimeOn] = useState(false)
     const [timer, setTimer] = useState(null)
     const [breakOn, setBreakOn] = useState(true)
