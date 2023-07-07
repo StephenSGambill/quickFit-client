@@ -1,7 +1,7 @@
 import { getToken } from "../../utils/getToken"
 
 export const getCompletedWorkouts = () => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/completedworkouts`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/completedworkouts`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -11,7 +11,7 @@ export const getCompletedWorkouts = () => {
 
 
 export const getWorkoutGroups = () => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/workoutgroups`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workoutgroups`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -20,7 +20,7 @@ export const getWorkoutGroups = () => {
 }
 
 export const getWorkouts = () => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/workouts`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workouts`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -29,7 +29,7 @@ export const getWorkouts = () => {
 }
 
 export const getWorkoutById = (id) => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/workouts/${id}`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workouts/${id}`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -38,7 +38,7 @@ export const getWorkoutById = (id) => {
 }
 
 export const updateWorkout = (id, updatedWorkout) => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/workouts/${id}`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workouts/${id}`, {
         method: "PUT",
         headers: {
             "Authorization": `Token ${getToken()}`,
@@ -58,7 +58,7 @@ export const updateWorkout = (id, updatedWorkout) => {
 
 
 export const deleteWorkout = (id) => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/workouts/${id}`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workouts/${id}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Token ${getToken()}`
@@ -74,7 +74,7 @@ export const deleteWorkout = (id) => {
 }
 
 export const saveWorkout = (newWorkout) => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/workouts`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workouts`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export const saveWorkout = (newWorkout) => {
 }
 
 export const completeWorkout = (workoutId) => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/completedworkouts`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/completedworkouts`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

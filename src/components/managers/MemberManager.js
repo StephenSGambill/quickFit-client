@@ -1,7 +1,7 @@
 import { getToken } from "../../utils/getToken"
 
 export const getCurrentMember = () => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/profile`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/profile`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -10,7 +10,7 @@ export const getCurrentMember = () => {
 }
 
 export const updateMemberDetails = (updatedMember) => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/profile/edit`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/profile/edit`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export const updateMemberDetails = (updatedMember) => {
 }
 
 export const getMembers = () => {
-    return fetch(`https://king-prawn-app-4ozdj.ondigitalocean.app/members`, {
+    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/members`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
