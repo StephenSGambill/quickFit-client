@@ -1,7 +1,8 @@
 import { getToken } from "../../utils/getToken"
+import { backEndURL } from "./_backEndURL"
 
 export const getExercises = () => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/exercises`, {
+    return fetch(`${backEndURL}/exercises`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -9,7 +10,7 @@ export const getExercises = () => {
         .then(response => response.json())
 }
 export const getExercisesByGroup = (id) => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/workoutgroups/${id}`, {
+    return fetch(`${backEndURL}/${id}`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -18,7 +19,7 @@ export const getExercisesByGroup = (id) => {
 }
 
 export const saveExercise = (newExercise) => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/exercises`, {
+    return fetch(`${backEndURL}/exercises`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -30,7 +31,7 @@ export const saveExercise = (newExercise) => {
 }
 
 export const deleteExercise = (id) => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/exercises/${id}`, {
+    return fetch(`${backEndURL}/exercises/${id}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Token ${getToken()}`
@@ -46,7 +47,7 @@ export const deleteExercise = (id) => {
 }
 
 export const updateExercise = (id, updatedExercise) => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/exercises/${id}`, {
+    return fetch(`${backEndURL}/${id}`, {
         method: "PUT",
         headers: {
             "Authorization": `Token ${getToken()}`,

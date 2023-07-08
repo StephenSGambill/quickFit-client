@@ -1,7 +1,8 @@
 import { getToken } from "../../utils/getToken"
+import { backEndURL } from "./_backEndURL"
 
 export const getCurrentMember = () => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/profile`, {
+    return fetch(`${backEndURL}/profile`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
@@ -10,7 +11,7 @@ export const getCurrentMember = () => {
 }
 
 export const updateMemberDetails = (updatedMember) => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/profile/edit`, {
+    return fetch(`${backEndURL}/profile/edit`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -22,7 +23,7 @@ export const updateMemberDetails = (updatedMember) => {
 }
 
 export const getMembers = () => {
-    return fetch(`https://starfish-app-8dtmr.ondigitalocean.app/members`, {
+    return fetch(`${backEndURL}/members`, {
         headers: {
             "Authorization": `Token ${getToken()}`
         }
